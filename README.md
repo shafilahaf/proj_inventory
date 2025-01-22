@@ -16,3 +16,10 @@ The Australian Embassy Inventory Module is a comprehensive solution for managing
 - Odoo 15
 - Python 3
 - PostgreSQL database
+## PICS
+1. Scan update using Handhled
+![image](https://github.com/user-attachments/assets/ede16e47-9633-4848-b64a-22bfa319dd0d)
+
+2. Journaling (Purchase, Sales, Sales Return, Item)
+![image](https://github.com/user-attachments/assets/bec92402-26f6-4ca3-a4c4-a933bf7acbb8)
+
