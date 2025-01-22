@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="ae_user_login_logs_view_tree" model="ir.ui.view">
+        <field name="name">ae.user.login.logs.view.tree</field>
+        <field name="model">res.users</field>
+        <field name="priority" eval="17" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="name" />
+                <field name="login_date" string="Login Time"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

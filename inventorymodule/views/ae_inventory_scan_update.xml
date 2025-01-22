@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="scan_update_view_tree" model="ir.ui.view">
+        <field name="name">scan.update.view.tree</field>
+        <field name="model">ae.movement.header</field>
+        <field name="priority" eval="17" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="document_no" />
+                <field name="inventory_location_code" string="To Location"/>
+                <field name="inventory_room_code" string="To Room"/>
+                <field name="inventory_sub_room_code" string="To Subroom"/>
+                <field name="available_rooms" invisible="1"/>
+                <field name="available_sub_rooms" invisible="1"/>
+                <field name="user" />
+                <field name="posting_date" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="scan_update_view_search" model="ir.ui.view">
+        <field name="name">scan.update.view.search</field>
+        <field name="model">ae.movement.header</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="inventory_location_code" />
+                <field name="document_no" />
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="scan_update_view_form" model="ir.ui.view">
+        <field name="name">scan.update.view.form</field>
+        <field name="model">ae.movement.header</field>
+        <field name="priority" eval="17" />
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Scan Update" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <group>
+                        <field name="inventory_location_code" attrs="{'readonly': [('status', 'in', ['posted'])]}" string="To Location"/>
+                        <field name="inventory_room_code" attrs="{'readonly': [('status', 'in', ['posted'])]}" string="To Room"/>
+                        <field name="inventory_sub_room_code" attrs="{'readonly': [('status', 'in', ['posted'])]}" string="To Subroom"/>
+                        <field name="available_rooms" invisible="1"/>
+                        <field name="available_sub_rooms" invisible="1"/>
+                        <field name="status" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page name="line" string="Lines">
+                            <field name="movement_line">
+                            <tree editable="bottom" >
+                                <field name="header_id" invisible="1" />
+                                <field name="inventory" />
+                                <field name="inventory_picture" />
+                                <field name="inventory_label" />
+                                <!-- <field name="inventory_name" /> -->
+                                <field name="asset_number" />
+                                <field name="from_location"/>
+                                <field name="from_room" />
+                                <field name="from_sub_room" />
+                            </tree>
+                            <form>
+                                <field name="inventory" />
+                                <field name="inventory_picture" />
+                                <field name="inventory_label" />
+                                <!-- <field name="inventory_name" /> -->
+                                <field name="asset_number" />
+                                <field name="from_location"/>
+                                <field name="from_room" />
+                                <field name="from_sub_room" />
+                            </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

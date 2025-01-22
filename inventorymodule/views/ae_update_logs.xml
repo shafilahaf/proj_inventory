@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="ae_update_logs_view_tree" model="ir.ui.view">
+        <field name="name">ae.update.logs.view.tree</field>
+        <field name="model">mail.message</field>
+        <field name="priority" eval="17" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="date" />
+                <field name="author_id" widget="many2one_avatar"/>
+                <field name="model" />
+                <field name="res_id" />
+                <field name="body" />
+            </tree>
+        </field>
+    </record>
+</odoo>

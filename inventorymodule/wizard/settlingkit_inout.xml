@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- Not used -->
+    <record id="ae_settlingkitsinout_report_wizard_view_form" model="ir.ui.view">
+        <field name="name">ae.settlingkitsinout.report.wizard.view.form</field>
+        <field name="model">ae.inventory.settlingkits.inout.reports.wizard</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="settlingkit_document_no" />
+                        <!-- <field name="settlingkit_posting_date" /> -->
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_print_report" string="Print" type="object" class="oe_highlight" />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

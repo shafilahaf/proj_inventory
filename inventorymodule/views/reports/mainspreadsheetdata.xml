@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_mainspreadsheet">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                        <!-- tr {
+                               height: 2px;
+                               line-height: 2px;
+                           } -->
+                        /* Custom styles for the table */
+                        table {
+                            width: 100%;
+                            <!-- border-collapse: collapse; -->
+                            <!-- border: 1px solid #bababa; -->
+                            font-family: "Segoe UI", Arial, sans-serif;
+                            font-size: 9px; /* Live : 10/8/2023 */
+                        }
+                        th, td {
+                            border: 1px solid #bababa;
+                            padding: 8px;
+                            text-align: center;
+                            white-space: normal; /* Allow text to wrap */
+                            overflow: hidden; /* Hide overflow */
+                            text-overflow: ellipsis; /* Display ellipsis for truncated text */
+                            max-width: 200px; /* Adjust the max-width as needed */
+                        }
+                        th {
+                            background-color: #00006a;
+                            color: #FFF;
+                            font-weight: bold;
+                            border: 1px solid #bababa;
+                        }
+                        tr:nth-child(even) {
+                            background-color: #FFF;
+                        }
+                        img {
+                            width: 100px;
+                            height: 100px;
+                            display: block;
+                            margin: auto;
+                        }
+                        tr {
+                            height: auto;
+                            line-height: auto;
+                        }
+                        tr:nth-child(even) {
+                            background-color: #EAEAEA;
+                        }
+                    </style>
+
+                    <div class="oe_structure"/>
+
+                    <!-- <div class="text-center">
+                        <h4 style="font-family: 'Segoe UI', Arial, sans-serif;font-weight:bolder;font-size: 15px;"> Main Spread Sheet Inventory Data </h4>
+                    </div> -->
+                    <!-- <div class="text-right" style="font-weight:bolder;font-size: 9px;">
+                        <i>Print Date : <t t-esc="form_data['print_date_char']" /></i>
+                    </div> -->
+                    <table class="table">
+                        <thead>
+                            <!-- title and print date -->
+                            <tr>
+                                <th colspan="6" style="text-align: center; font-size: 15px; font-weight: bold; background-color: #fff; color: #000;border:0px;">
+                                    Main Spread Sheet Inventory Data
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="6" style="text-align: right; font-size: 9px; font-weight: bold;border:0px;color:#000;background-color: #fff;">
+                                    Printed On <t t-esc="form_data['print_date_char']" />
+                                </th>
+                            </tr>
+                            <tr>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color: #FFF;">No.</th>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color: #FFF;">Ref. Tag</th>
+                                <th rowspan="1" colspan="2" style="vertical-align: middle; border-top: 1px solid #bababa; border-bottom: 1px solid #bababa;color: #FFF;">Furniture</th>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color: #FFF;">Asset Number</th>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color: #FFF;">Storage Location</th>
+                            </tr>
+                            <tr>
+                                <th style="border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color: #FFF;">Name</th>
+                                <th style="border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color: #FFF;">Inventory Label</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="inventories" t-as="inventory">
+                                <tr>
+                                    <td><t t-esc="inventory['index']"/></td>
+                                    <td><t t-esc="inventory['reftag']"/></td>
+                                    <td><t t-esc="inventory['name']"/></td>
+                                    <td><t t-esc="inventory['label']"/></td>
+                                    <td><t t-esc="inventory['asset_number']"/></td>
+                                    <td>
+                                        <t t-esc="inventory['locationcode']"/>
+                                        <t t-if="inventory['roomcode']">
+                                            -<t t-esc="inventory['roomcode']"/>
+                                        </t>
+                                        <t t-if="inventory['subroomcode']">
+                                            -<t t-esc="inventory['subroomcode']"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer">
+                    <!-- Center the page of -->
+                    <div class="text-center" style="font-family: Segoe UI, Arial, sans-serif;">
+                        Page <span class="page"/> of <span class="topage"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

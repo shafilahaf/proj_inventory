@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_residence_catalogue">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                        table {
+                            width: 100%;
+                            font-family: "Segoe UI", Arial, sans-serif;
+                            font-size: 10px;
+                        }
+                        th, td {
+                            border: 1px solid #bababa;
+                            padding: 8px;
+                            text-align: center;
+                            white-space: normal; /* Allow text to wrap */
+                            overflow: hidden; /* Hide overflow */
+                            text-overflow: ellipsis; /* Display ellipsis for truncated text */
+                            max-width: 200px; /* Adjust the max-width as needed */
+                        }
+                        th {
+                            background-color: #00006a;
+                            color: #FFF;
+                            font-weight: bold;
+                            border: 1px solid #bababa;
+                        }
+                        tr:nth-child(even) {
+                            background-color: #FFF;
+                        }
+                        tr {
+                            height: auto;
+                            line-height: auto;
+                        }
+                        tr:nth-child(even) {
+                            background-color: #EAEAEA;
+                        }
+                    </style>
+                    <table class="table">
+                        <thead>
+                            <!-- title and print date -->
+                            <tr>
+                                <th colspan="9" style="text-align: center; font-size: 15px; font-weight: bold; background-color: #fff; color: #000;border:0px;">
+                                    Furniture in <t t-esc="form_data['ae_location_name']" />
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="9" style="text-align: right; font-size: 10px; font-weight: bold;border:0px;color:#000;background-color: #fff;">
+                                    Updated: <t t-esc="form_data['printed_date_char']" />
+                                </th>
+                            </tr>
+                            <tr>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle;">No.</th>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle;">Description</th>
+                                <th rowspan="1" colspan="3" >Dimensions (in mm)</th>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle;">Picture</th>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle;">Quantity in Location</th>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle;">Total Stock</th>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle;">Type</th>
+                            </tr>
+                            <tr>
+                                <th >Width/Depth</th>
+                                <th >Length</th>
+                                <th >Height</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="inventories" t-as="inventory">
+                                <tr>
+                                    <td><t t-esc="inventory['index']"/></td>
+                                    <td><t t-esc="inventory['name']"/></td>
+                                    <td><t t-esc="inventory['width']"/></td>
+                                    <td><t t-esc="inventory['length']"/></td>
+                                    <td><t t-esc="inventory['height']"/></td>
+                                    <td>
+                                        <t t-if="inventory['picture']">
+                                            <img t-att-src="inventory['picture']" style="max-width: 100px; max-height: 100px;" />
+                                            <figcaption><t t-esc="inventory['name']"/></figcaption>
+                                        </t>
+                                        <t t-else="False">
+                                           <img t-att-src="'/inventorymodule/static/asset/noimage.jpg'" style="max-width: 100px; max-height: 100px;"/>
+                                           <figcaption><t t-esc="inventory['name']"/></figcaption>
+                                        </t>
+                                    </td>
+                                    <!-- <td><t t-esc="', '.join(inventory['subroom'])"/></td> -->
+                                    <td>
+                                        <t t-foreach="inventory['subroom']" t-as="subroom">
+                                            <t t-esc="subroom"/><br/>
+                                        </t>
+                                    </td>
+                                    <td><t t-esc="inventory['total_stock']"/></td>
+                                    <td><t t-esc="inventory['type']"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer">
+                    <!-- Center the page of -->
+                    <div class="text-center" style="font-family: Segoe UI, Arial, sans-serif;">
+                        Page <span class="page"/> of <span class="topage"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

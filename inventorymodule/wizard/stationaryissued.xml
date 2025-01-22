@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ae_stationeryissued_report_wizard_view_form" model="ir.ui.view">
+        <field name="name">ae.stationeryissued.report.wizard.view.form</field>
+        <field name="model">ae.inventory.stationary.issued.wizard</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <!-- <field name="entry_type" invisible="1"/> -->
+                        <!-- <field name="document_no" /> -->
+                        <!-- <field name="vendor_name" /> -->
+                        <field name="isgetallcustomer" widget="boolean_toggle"/>
+                        <field name="customer_name" attrs="{'invisible': [('isgetallcustomer', '=', True)], 'required': [('isgetallcustomer', '=', False)]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="starting_date" />
+                        <field name="ending_date" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_print_report2" string="Print" type="object" class="oe_highlight" />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

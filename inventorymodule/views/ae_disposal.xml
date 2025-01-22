@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- disposal List inventory type = asset-->
+    <!-- Tree -->
+    <record id="disposal_asset_view_tree" model="ir.ui.view">
+        <field name="name">disposal.asset.view.tree</field>
+        <field name="model">ae.disposal.header</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="document_no" />
+                <field name="disposal_method" />
+                <!-- <field name="inventory_type"/> -->
+                <field name="status" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="disposal_asset_view_form" model="ir.ui.view">
+        <field name="name">disposal.asset.view.form</field>
+        <field name="model">ae.disposal.header</field>
+        
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <header>
+                    <button string="Release" name="action_release" type="object" class="oe_highlight" attrs="{'invisible': [('status','in',['posted', 'released'])] }"/>
+                    <button string="Reset To Open" name="action_reset_draft" type="object" class="oe_highlight" attrs="{'invisible': [('status','in',['posted', 'open'])] }" confirm="Are you sure you want to reset to open?"/>
+                    <button string="Posting" name="action_posting_invle" type="object" class="oe_highlight" attrs="{'invisible': [('status','in',['posted', 'open'])] }" confirm="Are you sure you want to posting? Please make sure all data is correct."/>
+                    <button string="Print" name="action_print_inventory_asset_disposal" type="object" class="oe_highlight" attrs="{'invisible': [('status','in',['posted', 'open'])] }"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+
+                    <widget name="web_ribbon" title="Disposal Inventory" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="document_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="document_no" placeholder="e.g. Document 0001"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <!-- <field name="document_no" attrs="{'readonly': [('status', 'in', ['posted', 'released'])]}"/> -->
+                        <field name="posting_date" attrs="{'readonly': [('status', 'in', ['posted', 'released'])]}"/>
+                        <field name="disposal_method" attrs="{'readonly': [('status', 'in', ['posted', 'released'])]}"/>
+                        <field name="notes" attrs="{'readonly': [('status', 'in', ['posted', 'released'])]}"/>
+                        <field name="location_code" attrs="{'readonly': [('status', 'in', ['posted', 'released'])], 'invisible': [('disposal_method', 'in', ['1', '3', False])], 'required': [('disposal_method', 'in', ['2'])]}"  domain="[('location_type','in', [3])]" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="am3_disposal_form" attrs="{'readonly': [('status', 'in', ['posted', 'released'])], 'required': [('inventory_type_asset', 'in', ['2'])], 'invisible': [('inventory_type_asset', 'in', ['1', False])]}"/>
+                        <!-- <field name="status" /> -->
+                        <field name="inventory_type_asset" attrs="{'required': [('disposal_method', 'in', ['1', '3','2', False])]}"/>
+                        <field name="inventory_type" invisible="1"/>
+                        <field name="isDisposalInventory" invisible="1" />
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="line_ids" attrs="{'readonly': [('status', 'in', ['posted', 'released'])]}">
+                            <tree editable="bottom" >
+                                <field name="header_id" invisible="1" />
+                                <field name="line_no" />
+                                <field name="disposal_picture" widget="image" height="50" force-save="1"/>
+                                <!-- <field name="inventory"/> -->
+                                <field name="inventory" domain="[('inventory_type','=', inventory_type_header), ('inventory_location_code.location_type', '=', '2')]" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="inventory_label" force_save="1"/>
+                                <field name="inventory_type_header" force_save="1"/>
+                                <field name="inventory_asset_number" force_save="1"/>
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="inventory_room_code" force_save="1"/>
+                                <field name="inventory_sub_room_code" force_save="1"/>
+                                <field name="disposal_method" force_save="1"/>
+                                <field name="quantity" force_save="1"/>
+                                <field name="inventory_uom" force_save="1"/>
+                                <field name="condition" force_save="1"/>
+                                <field name="remarks" force_save="1"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                            </tree>
+                            <form>
+                                <field name="line_no" />
+                                <field name="disposal_picture" force_save="1"/>
+                                <field name="inventory" domain="[('inventory_type','=', inventory_type_header)]" force_save="1" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="inventory_label" force_save="1"/>
+                                <field name="inventory_type_header" force_save="1"/>
+                                <field name="inventory_asset_number" force_save="1"/>
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="inventory_room_code" force_save="1"/>
+                                <field name="inventory_sub_room_code" force_save="1"/>
+                                <field name="disposal_method" force_save="1"/>
+                                <field name="quantity" force_save="1"/>
+                                <field name="condition" force_save="1"/>
+                                <field name="remarks" force_save="1"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="inventory_uom" force_save="1"/>
+
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- disposal List -->
+
+    <!-- disposal List inventory type = setkit-->
+    <!-- Tree -->
+    <record id="disposal_setkit_view_tree" model="ir.ui.view">
+        <field name="name">disposal.setkit.view.tree</field>
+        <field name="model">ae.disposal.header</field>
+        <field name="priority" eval="17" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="document_no" />
+                <field name="disposal_method" />
+                <!-- <field name="inventory_type"/> -->
+                <field name="status" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="disposal_setkit_view_form" model="ir.ui.view">
+        <field name="name">disposal.setkit.view.form</field>
+        <field name="model">ae.disposal.header</field>
+        <field name="priority" eval="17" />
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <header>
+                    <button string="Release" name="action_release" type="object" class="oe_highlight" attrs="{'invisible': [('status','in',['posted', 'released'])] }"/>
+                    <button string="Reset To Open" name="action_reset_draft" type="object" class="oe_highlight" attrs="{'invisible': [('status','in',['posted', 'open'])] }" confirm="Are you sure you want to reset to open?"/>
+                    <button string="Posting" name="action_posting_invle" type="object" class="oe_highlight" attrs="{'invisible': [('status','=','posted')] }" confirm="Are you sure you want to posting? Please make sure all data is correct."/>
+                    <button string="Print" name="action_print_inventory_setkit_disposal" type="object" class="oe_highlight" attrs="{'invisible': [('status','in',['posted', 'open'])] }"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+
+                    <widget name="web_ribbon" title="Disposal Settling Kit" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="document_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="document_no" placeholder="e.g. Document 0001"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <!-- <field name="document_no" attrs="{'readonly': [('status', 'in', ['posted', 'released'])]}"/> -->
+                        <field name="posting_date" attrs="{'readonly': [('status', 'in', ['posted', 'released'])]}"/>
+                        <field name="disposal_method_setkit" force_save="1" attrs="{'required': [('inventory_type_setkit', 'in', ['3'])]}"/>
+                        <field name="disposal_method" invisible="1" force_save="1" />
+                        <field name="location_code" attrs="{'readonly': [('status', 'in', ['posted', 'released'])], 'invisible': [('disposal_method', 'in', ['1', '3', False])], 'required': [('disposal_method', 'in', ['2'])]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="inventory_type_setkit" />
+                        <field name="inventory_type" invisible="1"/>
+                        <field name="isDisposalSetkit" invisible="1" />
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="line_ids" attrs="{'readonly': [('status', 'in', ['posted', 'released'])]}">
+                            <tree editable="bottom" >
+                                <field name="header_id" invisible="1" />
+                                <field name="line_no" />
+                                <field name="disposal_picture" widget="image" height="50" force-save="1"/>
+                                <field name="inventory" domain="[('inventory_type','in', [5])]" context="{'form_view_ref': 'inventorymodule.ae_inventory_settling_kits_view_form'}" options="{'no_create': True, 'no_create_edit':True}"/> <!--, ('inventory_location_code.location_type', '=', '2')-->
+                                <field name="inventory_label" force_save="1"/>
+                                <field name="inventory_type" force_save="1"/>
+                                <field name="inventory_asset_number" force_save="1"/>
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="inventory_room_code" force_save="1"/>
+                                <field name="inventory_sub_room_code" force_save="1"/>
+                                <field name="disposal_method" force_save="1"/>
+                                <field name="quantity" force_save="1"/>
+                                <field name="inventory_uom" force_save="1"/>
+                                <field name="condition" force_save="1"/>
+                                <field name="remarks" force_save="1"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+
+                            </tree>
+                            <form>
+                                <field name="line_no" />
+                                <field name="disposal_picture" force_save="1"/>
+                                <field name="inventory" domain="[('inventory_type','in', [5])]" force_save="1" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="inventory_label" force_save="1"/>
+                                <field name="inventory_type" force_save="1"/>
+                                <field name="inventory_asset_number" force_save="1"/>
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="inventory_room_code" force_save="1"/>
+                                <field name="inventory_sub_room_code" force_save="1"/>
+                                <field name="disposal_method" force_save="1"/>
+                                <field name="quantity" force_save="1"/>
+                                <field name="condition" force_save="1"/>
+                                <field name="remarks" force_save="1"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="inventory_uom" force_save="1"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- disposal List -->
+
+    <!-- Search -->
+    <record id="disposal_view_search" model="ir.ui.view">
+        <field name="name">disposal.view.search</field>
+        <field name="model">ae.disposal.header</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="document_no" />
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Sequence -->
+    <!-- <record id="sequence_ae_disposal_default" model="ir.sequence">
+        <field name="name">AE Disposal Default</field>
+        <field name="code">ae.disposal.header</field>
+        <field name="prefix">DISPOSAL-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+    </record> -->
+
+     <record id="sequence_ae_disposal_inventory" model="ir.sequence">
+        <field name="name">AE Disposal Inventory</field>
+        <field name="code">ae.disposal.asset</field>
+        <field name="prefix">DSI-%(day)s%(month)s%(y)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+    <record id="sequence_ae_disposal_settling" model="ir.sequence">
+        <field name="name">AE Disposal Settling</field>
+        <field name="code">ae.disposal.setkit</field>
+        <field name="prefix">DSK-%(day)s%(month)s%(y)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+    <!-- Sequence -->
+
+</odoo>

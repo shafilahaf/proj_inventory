@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_storagemanagementdua">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page" style="font-family: Segoe UI, Arial, sans-serif;">
+                    <style>
+                        /* Custom styles for the table */
+                        table {
+                            width: 100%;
+                            <!-- border-collapse: collapse; -->
+                            font-family: "Segoe UI", Arial, sans-serif;
+                            font-size: 9px;
+                        }
+                        th, td {
+                            border: 1px solid #bababa;
+                            padding: 8px;
+                            text-align: center; /* Center-align content in cells */
+                        }
+                        th {
+                            background-color: #00006a;
+                            color: #FFF;
+                            font-weight: bold; /* Bold font for table headers */
+                        }
+                        tr:nth-child(even) {
+                            background-color: #f9f9f9; /* Alternate row background color */
+                        }
+                        
+                        tr {
+                            height: auto;
+                            line-height: auto;
+                        }
+                    </style>
+                    <div class="oe_structure"/>
+
+                    <!-- <div class="text-center">
+                        <h4 style="font-weight:bold;font-size: 15px;">Inventory List of Spare Furniture</h4>
+                    </div>
+
+                    <div>
+                        <i style="float:left;font-size: 9px;">Location: <t t-esc="form_data['ae_location'][1]"/> <span>-</span> <t t-esc="form_data['ae_location_name']"/> </i>
+                        <i style="float:right;font-size: 9px;">Updated: <t t-esc="form_data['print_date_char']"/></i>
+                    </div> -->
+                    
+                    <table class="table">
+                        <thead>
+                            <!-- Title -->
+                            <tr>
+                                <th colspan="4" style="text-align:center;font-size: 15px;font-weight:bold;color:#000;border:0px;background-color:#fff;">Inventory List of Spare Furniture</th>
+                            </tr>
+                            <!-- Location and Updated -->
+                            <tr>
+                                <!-- <th colspan="2" style="text-align:left;font-size: 9px;color:#000;border:0px;background-color:#fff;">Location: <t t-esc="form_data['ae_location'][1]"/> <span>-</span> <t t-esc="form_data['ae_location_name']"/> 
+                                    <t t-if="form_data['inventory_room_code_name'] or form_data['inventory_sub_room_code_name']">
+                                        <span>-</span> <t t-esc="form_data['inventory_room_code_name']"/> <span>-</span> <t t-esc="form_data['inventory_sub_room_code_name']"/>
+                                    </t>
+                                </th> -->
+                                <th colspan="2" style="text-align:left;font-size: 9px;color:#000;border:0px;background-color:#fff;">
+                                    <t t-if="form_data['ae_location']">
+                                        Location: <t t-esc="form_data['ae_location'][1]"/> <span>-</span> <t t-esc="form_data['ae_location_name']"/> 
+                                    </t>
+                                    <t t-else="False">
+                                        Location: 
+                                    </t>
+                                    <t t-if="form_data['inventory_room_code_name'] or form_data['inventory_sub_room_code_name']">
+                                        <span>-</span> <t t-esc="form_data['inventory_room_code_name']"/> <span>-</span> <t t-esc="form_data['inventory_sub_room_code_name']"/>
+                                    </t>
+                                </th>
+                                <th colspan="2" style="text-align:right;font-size: 9px;color:#000;border:0px;background-color:#fff;">Printed On <t t-esc="form_data['print_date_char']"/></th>
+                            </tr>
+
+                            <tr>
+                                <tr>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle;color:#fff;">No.</th>
+                                    <th rowspan="1" colspan="2" style="vertical-align: middle;color:#fff;">Furniture</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle;color:#fff;">Remarks</th>
+                                </tr>
+                                <tr>
+                                    <th style="color:#fff;">Name</th>
+                                    <th style="color:#fff;">Inventory Label</th>
+                                </tr>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="inventory_groups" t-as="group">
+                                <tr class="group-header">
+                                    <!-- <td colspan="2" style="text-align:right;background-color:#D9D9D9;margin:0;border: 0px solid #D9D9D9;"><img t-att-src="'data:image/png;base64,%s' % group['picture']" style="width: 120px;height: 120px;"/></td> -->
+                                    <!-- If picture false get image from inventorymodule/static/asset/noimage.jpg --> 
+                                    <td colspan="2" style="text-align:center;background-color:#D9D9D9;margin:0;border: 0px solid #D9D9D9;vertical-align: middle;padding-left:165px;">
+                                        <t t-if="group['picture']">
+                                            <img t-att-src="'data:image/png;base64,%s' % group['picture']" style="max-width: 120px;max-height: 120px;"/>
+                                        </t>
+                                        <t t-else="False">
+                                            <img t-att-src="'/inventorymodule/static/asset/noimage.jpg'" style="width: 120px;height: 120px;"/>
+                                        </t>
+                                    </td>
+                                    <td colspan="2" style="text-align:center;background-color:#D9D9D9;margin:0;vertical-align: middle;border: 0px solid #D9D9D9;font-weight:bolder;padding-right:180px;">Ref. Tag: <t t-esc="group['reftag'] "/></td>
+                                </tr>
+                                <t t-foreach="group['inventory_group_data']" t-as="inventory">
+                                    <tr>
+                                        <td><t t-esc="inventory['index']"/></td>
+                                        <td><t t-esc="inventory['name']"/></td>
+                                        <td><t t-esc="inventory['label']"/></td>
+                                        <td><t t-esc="inventory['remarks']"/></td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer">
+                    <!-- Center the page of -->
+                    <div class="text-center" style="font-family: Segoe UI, Arial, sans-serif;">
+                        Page <span class="page"/> of <span class="topage"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

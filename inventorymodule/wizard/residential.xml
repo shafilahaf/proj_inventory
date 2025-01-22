@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ae_residential_report_wizard_view_form" model="ir.ui.view">
+        <field name="name">ae.residential.report.wizard.view.form</field>
+        <field name="model">ae.residential.reports.wizard</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="ae_location" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="ae_location_name" invisible="1"/>
+                        <field name="ae_asset_numbers" invisible="1"/>
+                        <field name="printed_date" invisible="1" force_save="1"/>
+                        <field name="printed_date_char" invisible="1" force_save="1"/>
+                        <!-- <field name="ae_asset_number" /> -->
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_print_report" string="Print" type="object" class="oe_highlight" />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

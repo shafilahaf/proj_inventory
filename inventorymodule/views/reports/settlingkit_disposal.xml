@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_inventorydisposalsetkit">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: Segoe UI, Arial, sans-serif;">
+
+                        <style>
+                        /* Custom styles for the table */
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                border: 1px solid #bababa;
+                                font-family: "Segoe UI", Arial, sans-serif;
+                            }
+                            th, td {
+                                border: 1px solid #bababa;
+                                padding: 8px;
+                                text-align: center;
+                                justify-content: center;
+                                max-width: 100px;
+                            }
+                            th {
+                                background-color: #00006a;
+                                color: #FFF;
+                                font-weight: bold;
+                                border: 1px solid #bababa;
+                            }
+                            tr:nth-child(even) {
+                                background-color: #FFF;
+                            }
+                            img {
+                                width: 100px;
+                                height: 100px;
+                                display: block;
+                                margin: auto;
+                            }
+                            tr {
+                                height: auto;
+                                line-height: auto;
+                            }
+                            img {
+                                width: 100px;
+                                height: 100px;
+                                display: block;
+                                margin: auto; /* Center-align images in cells */
+                            }
+
+                        </style>
+
+                        <div class="text-left">
+                            <h4>Document No : <t t-esc="o.document_no"/></h4>
+                        </div>
+                        <div class="text-right">
+                            <i>Updated : <t t-esc="o.posting_date_char"/></i>
+                        </div>
+
+                        <!-- Table -->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th colspan="8" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color: #FFF;">ITEMS TO BE DISPOSED</th>
+                                </tr>
+                                <tr>
+                                    <th style="border-bottom: 1px solid #bababa;color: #FFF;">Name</th>
+                                    <th style="border-bottom: 1px solid #bababa;color: #FFF;">Label</th>
+                                    <th style="border-bottom: 1px solid #bababa;color: #FFF;">Picture</th>
+                                    <th style="border-bottom: 1px solid #bababa;color: #FFF;">Quantity</th>
+                                    <th style="border-bottom: 1px solid #bababa;color: #FFF;">Condition</th>
+                                    <th style="border-bottom: 1px solid #bababa;color: #FFF;">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.line_ids" t-as="line">
+                                    <tr>
+                                        <td><t t-esc="line.inventory.inventory_name"/></td>
+                                        <td><t t-esc="line.inventory.inventory_label"/></td>
+                                        <td>
+                                            <img t-if="line.disposal_picture" t-att-src="'data:image/png;base64,%s' % line.disposal_picture_data"/>
+                                        </td>
+                                        <td><t t-esc="line.quantity"/></td>
+                                        <td><span t-field="line.condition" /></td>
+                                        <td><t t-esc="line.remarks"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="footer">
+                        <!-- Center the page of -->
+                        <div class="text-center" style="font-family: Segoe UI, Arial, sans-serif;">
+                            Page <span class="page"/> of <span class="topage"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

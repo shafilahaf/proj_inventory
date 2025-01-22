@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Auction List-->
+    <!-- Tree -->
+    <record id="auction_view_tree" model="ir.ui.view">
+        <field name="name">auction.view.tree</field>
+        <field name="model">ae.auction.header</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="document_no" />
+                <field name="auction_date" />
+                <field name="agency_name" />
+                <field name="lot_no" />
+                <field name="status" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- search -->
+    <record id="auction_view_search" model="ir.ui.view">
+        <field name="name">auction.view.search</field>
+        <field name="model">ae.auction.header</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="document_no" />
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="auction_view_form" model="ir.ui.view">
+        <field name="name">auction.view.form</field>
+        <field name="model">ae.auction.header</field>
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <header>
+                    <button string="Posting" name="action_posting_invle" type="object" class="oe_highlight" attrs="{'invisible': [('status','=','posted')] }"/>
+                    <button string="Print" name="action_print_auction_report" type="object" class="oe_highlight" attrs="{'invisible': [('status','in',['open'])] }"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Auction" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="document_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="document_no" placeholder="e.g. Document 0001"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <!-- <field name="document_no" /> -->
+                        <field name="posting_date" attrs="{'readonly': [('status', 'in', ['posted'])]}"/>
+                        <field name="auction_date" attrs="{'readonly': [('status', 'in', ['posted'])]}"/>
+                        <field name="lot_no" attrs="{'readonly': [('status', 'in', ['posted'])]}"/>
+                        <!-- <field name="location_name" /> -->
+                        <field name="harga_limit" attrs="{'readonly': [('status', 'in', ['posted'])]}"/>
+                        <field name="harga_terbentuk" attrs="{'readonly': [('status', 'in', ['posted'])]}"/>
+                        <field name="agency_name" attrs="{'readonly': [('status', 'in', ['posted'])]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="cost_centre" />
+                        <field name="internal_order" />
+                        <field name="fee" attrs="{'readonly': [('status', 'in', ['posted'])]}"/>
+                        <field name="ppn" attrs="{'readonly': [('status', 'in', ['posted'])]}"/>
+                        <field name="auction_file_attach" attrs="{'readonly': [('status', 'in', ['posted'])]}"/>
+                        <field name="auction_group" attrs="{'readonly': [('status', 'in', ['posted'])]}"/>
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="auction_line_ids" attrs="{'readonly': [('status', 'in', ['posted'])]}">
+                            <tree editable="bottom" >
+                                <field name="auction_header_id" invisible="1" />
+                                <field name="line_no"/>
+                                <field name="inventory" domain="[('inventory_location_code.location_type','=','3')]" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <!-- <field name="inventory_name"/> -->
+                                <field name="inventory_label"/>
+                                <field name="inventory_no"/>
+                                <field name="inventory_type" />
+                                <field name="inventory_uom" />
+                                <field name="inventory_location" />
+                                <field name="inventory_status"/>
+                                <field name="asset_no"/>
+                                <field name="disposal_method"/>
+                                <field name="disposal_picture" widget="image" height="50"/>
+                                <field name="quantity"/>
+                            </tree>
+                            <form>
+                                <field name="line_no"/>
+                                <field name="inventory" domain="[('inventory_location_code.location_type','=','3')]" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <!-- <field name="inventory_name"/> -->
+                                <field name="inventory_no"/>
+                                <field name="inventory_type" />
+                                <field name="inventory_uom" />
+                                <field name="inventory_location" />
+                                <field name="inventory_label"/>
+                                <field name="inventory_status"/>
+                                <field name="asset_no"/>
+                                <field name="disposal_method"/>
+                                <field name="disposal_picture" widget="image" height="50"/>
+                                <field name="quantity"/>
+
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Auction List -->
+
+    <!-- Sequence -->
+    <record id="sequence_ae_auction" model="ir.sequence">
+        <field name="name">AE Auction</field>
+        <field name="code">ae.auction.header</field>
+        <field name="prefix">AUC-%(day)s%(month)s%(y)s-</field> <!--%(year)s%(month)s%(day)s-->
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+    <!-- Sequence -->
+
+</odoo>

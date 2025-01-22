@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- 
+    <record id="ae_location_header_view_tree" model="ir.ui.view">
+        <field name="name">ae.location.header.view.tree</field>
+        <field name="model">ae.location</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="location_code" />
+                <field name="location_name" />
+                <field name="location_type" />
+                <field name="asset_location_code" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="model_name_view_form" model="ir.ui.view">
+        <field name="name">model_name.view.form</field>
+        <field name="model">model_name</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="location_code" />
+                        <field name="location_name" />
+                        <field name="location_type" />
+                        <field name="asset_location_code" />
+                    </group>
+                    <notebook>
+                        <page name="loc_detail" string="Location Detail">
+                            <field name="location_details_ids">
+                                <field name="room_code" />
+                                <field name="sub_room_code" />
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record> -->
+
+</odoo>

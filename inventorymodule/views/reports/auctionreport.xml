@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_auction">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <style>
+                    /* Custom styles for the table */
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            border: 1px solid #000;
+                        }
+                        th, td {
+                            border: 1px solid #000;
+                            padding: 8px;
+                            text-align: center;
+                        }
+                        th {
+                            background-color: #aed19d;
+                            font-weight: bold;
+                            border: 1px solid #000;
+                        }
+                        tr:nth-child(even) {
+                            background-color: #FFF;
+                        }
+                        img {
+                            width: 100px;
+                            height: 100px;
+                            display: block;
+                            margin: auto;
+                        }
+                        tr {
+                            height: 2px;
+                            line-height: 5px;
+                        }
+                    </style>
+                    <div class="oe_structure"/>
+                    <div class="text-center">
+                        <b><h5>HASIL LELANG ASET KEDUTAAN AUSTRALIA</h5></b>
+                        <b><h6>TANGGAL <span t-esc="form_data['get_month_year']"/></h6></b>
+                    </div>
+                    <br></br>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th rowspan="1" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #000; border-top: 1px solid #000;">NO LOT</th>
+                                <th rowspan="1" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #000; border-top: 1px solid #000;">HARGA LIMIT</th>
+                                <th rowspan="1" colspan="1" style="vertical-align: middle; border-top: 1px solid #000; border-bottom: 1px solid #000;">NAMA BARANG</th>
+                                <th rowspan="1" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #000; border-top: 1px solid #000;">JML</th>
+                                <th rowspan="1" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #000; border-top: 1px solid #000;">HARGA TERBENTUK</th>
+                            </tr>
+                        
+                        </thead>
+                        <tbody>
+                            <t t-foreach="auctiondatas" t-as="lines">
+                                <tr>
+                                    <t t-if="lines['lotno']">
+                                        <td t-att-rowspan="lines['reccount']"><t t-esc="lines['lotno']"/></td>
+                                        <td t-att-rowspan="lines['reccount']"><t t-esc="lines['hargalimit']"/></td>
+                                    </t>
+
+                                    <td><t t-esc="lines['namabarang']"/></td>
+                                    <td><t t-esc="lines['quantity']"/></td>
+                                    <t t-if="lines['lotno']">
+                                        <td t-att-rowspan="lines['reccount']"><t t-esc="lines['hargaterbentuk']"/></td>
+                                       
+                                    </t>
+
+                                </tr>
+                            </t>
+                            <tr>
+                                <td></td>
+                                <td><strong><t t-esc="lines['totallimit']"/></strong></td>
+                                <td></td>
+                                <td></td>
+                                <td><strong><t t-esc="lines['totalterbentuk']"/></strong></td>
+                            </tr>
+
+                        </tbody>
+                        <!-- <tfoot>
+                            <tr>
+                                <th colspan="5" style="text-align: right; background-color: #7a7474;">TOTAL AMOUNT</th>
+                                <th style="background-color: #7a7474;"><t t-esc="ledger['sumtotalprice']"/></th>
+                            </tr>
+                        </tfoot> -->
+                    </table>
+                    <!-- <div class="text-left" style="padding: 25px;">
+                        <b><p>Note : </p></b>
+                        <b><u><p>Please Credit to G/L 12735;Cost Centre QJAKT</p></u></b>
+                    </div> -->
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

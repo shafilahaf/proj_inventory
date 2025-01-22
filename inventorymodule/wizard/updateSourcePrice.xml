@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ae_update_source_price_wizard_view_form" model="ir.ui.view">
+        <field name="name">ae.update.source.price.wizard.view.form</field>
+        <field name="model">ae.inventory.update.source.price</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="updateSourcePriceInventory" string="Update" type="object" class="oe_highlight" />
+                    <button name="updateSourcePriceInventorySales" string="Update with Sales" type="object" class="oe_highlight" />
+                    <button name="updateSourcePriceInventoryPurchaseSourcePrice" string="Update with Source Price Purchase" type="object" class="oe_highlight" />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

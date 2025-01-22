@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <template id="report_storagemanagement">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page" style="font-family: Segoe UI, Arial, sans-serif;">
+                    <style>
+                        /* Custom styles for the table */
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            font-family: "Segoe UI", Arial, sans-serif;
+                        }
+                        th, td {
+                             border: 1px solid #bababa;
+                            padding: 8px;
+                            text-align: center; /* Center-align content in cells */
+                        }
+                        th {
+                            background-color: #00006a;
+                            color: #FFF;
+                            font-weight: bold; /* Bold font for table headers */
+                        }
+                        tr:nth-child(even) {
+                            background-color: #f9f9f9; /* Alternate row background color */
+                        }
+                        img {
+                            width: 100px;
+                            height: 100px;
+                            display: block;
+                            margin: auto; /* Center-align images in cells */
+                        }
+                        tr {
+                            height: auto;
+                            line-height: auto;
+                        }
+                    </style>
+                    <div class="oe_structure"/>
+
+                    <div class="text-center">
+                        <h4>INVENTORY LIST OF SPARE FURNITURE FROM STAFF RESIDENCE</h4>
+                    </div>
+                    <div class="text-right">
+                        <i>Updated: <t t-esc="form_data['print_date_char']"/></i>
+                    </div>
+                    <div class="text-left">
+                        <i>Location: <t t-esc="form_data['ae_location'][1]"/> <span>-</span> <t t-esc="form_data['ae_location_name']"/> </i>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <tr>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle;color:#fff;">No.</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle;color:#fff;">Ref. Tag</th>
+                                    <th rowspan="1" colspan="2" style="vertical-align: middle;color:#fff;">Furniture</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle;color:#fff;">Remarks</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle;color:#fff;">Picture</th>
+                                </tr>
+                                <tr>
+                                    <th style="color:#fff;">Name</th>
+                                    <th style="color:#fff;">Inventory Label</th>
+                                </tr>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="inventories" t-as="inventory">
+                                <tr>
+                                    <td><t t-esc="inventory['index']"/></td>
+                                    <td><t t-esc="inventory['reftag']"/></td>
+                                    <td><t t-esc="inventory['name']"/></td>
+                                    <td><t t-esc="inventory['label']"/></td>
+                                    <td><t t-esc="inventory['remarks']"/></td>
+                                    <td><img t-att-src="'data:image/png;base64,%s' % inventory['picture']"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer">
+                    <div class="text-center" style="font-family: Segoe UI, Arial, sans-serif;">
+                        Page <span class="page"/> of <span class="topage"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template> -->
+
+    <template id="report_storagemanagement">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page" style="font-family: Segoe UI, Arial, sans-serif;">
+                    <style>
+                        /* Custom styles for the table */
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            font-family: "Segoe UI", Arial, sans-serif;
+                        }
+                        th, td {
+                             border: 1px solid #bababa;
+                            padding: 8px;
+                            text-align: center; /* Center-align content in cells */
+                        }
+                        th {
+                            background-color: #00006a;
+                            color: #FFF;
+                            font-weight: bold; /* Bold font for table headers */
+                        }
+                        tr:nth-child(even) {
+                            background-color: #f9f9f9; /* Alternate row background color */
+                        }
+                        img {
+                            width: 100px;
+                            height: 100px;
+                            display: block;
+                            margin: auto; /* Center-align images in cells */
+                        }
+                        tr {
+                            height: auto;
+                            line-height: auto;
+                        }
+                    </style>
+                    <div class="oe_structure"/>
+
+                    <div class="text-center">
+                        <h4 style="font-weight:bold;">Inventory List of Spare Furniture From Staff Residence</h4>
+                    </div>
+                    <div class="text-right">
+                        <i>Updated: <t t-esc="form_data['print_date_char']"/></i>
+                    </div>
+                    <div class="text-left">
+                        <i>Location: <t t-esc="form_data['ae_location'][1]"/> <span>-</span> <t t-esc="form_data['ae_location_name']"/> </i>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <tr>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle;color:#fff;">No.</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle;color:#fff;">Ref. Tag</th>
+                                    <th rowspan="1" colspan="2" style="vertical-align: middle;color:#fff;">Furniture</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle;color:#fff;">Remarks</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle;color:#fff;">Picture</th>
+                                </tr>
+                                <tr>
+                                    <th style="color:#fff;">Name</th>
+                                    <th style="color:#fff;">Inventory Label</th>
+                                </tr>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="inventories" t-as="inventory">
+                                <tr>
+                                    <td><t t-esc="inventory['index']"/></td>
+                                    <t t-if="inventory['reftag']">
+                                        <td t-att-rowspan="inventory['reccount']"><t t-esc="inventory['reftag']"/></td>
+                                    </t>
+                                    <td><t t-esc="inventory['name']"/></td>
+                                    <td><t t-esc="inventory['label']"/></td>
+                                    <td><t t-esc="inventory['remarks']"/></td>
+                                    <t t-if="inventory['picture']">
+                                        <td t-att-rowspan="inventory['reccount']">
+                                            <t t-if="inventory['picture']">
+                                                <img t-att-src="'data:image/png;base64,%s' % inventory['picture']"/>
+                                            </t>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer">
+                    <!-- Center the page of -->
+                    <div class="text-center" style="font-family: Segoe UI, Arial, sans-serif;">
+                        Page <span class="page"/> of <span class="topage"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

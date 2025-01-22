@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+    <!--User-->
+    <!-- <record id="ae_user_group" model="res.groups">
+        <field name="name">aeUser</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record> -->
+
+    <!--Admin-->
+    <record id="ae_admin_group" model="res.groups">
+        <field name="name">System Admin</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+        <!-- <field name="implied_ids" eval="[(4, ref('ae_user_group'))]"></field> -->
+        <field name="users"
+           eval="[(4, ref('base.user_root')),
+                  (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record id="ae_super_user" model="res.groups">
+        <field name="name">Super User</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <record id="ae_property_inventory_staff" model="res.groups">
+        <field name="name">Property Inventory Staff</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <record id="ae_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <record id="ae_stationery_manager" model="res.groups">
+        <field name="name">Stationery Manager</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <record id="ae_stationery_staff" model="res.groups">
+        <field name="name">Stationery Staff</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <record id="ae_operational_staff" model="res.groups">
+        <field name="name">Operational Staff</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <record id="ae_create_location_access" model="res.groups">
+        <field name="name">Create Location</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <!-- <record id="ae_inventory" model="res.groups">
+        <field name="name">aeInventory</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <record id="ae_attractiveitem" model="res.groups">
+        <field name="name">aeAttractiveItem</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <record id="ae_stationeryandsupplies" model="res.groups">
+        <field name="name">aeStationeryAndSupplies</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <record id="ae_setkit" model="res.groups">
+        <field name="name">aeSettlingKit</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <record id="ae_auction" model="res.groups">
+        <field name="name">aeAuction</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record>
+
+    <record id="ae_scanupdate" model="res.groups">
+        <field name="name">aeScanUpdate</field>
+        <field name="category_id" ref="base.module_category_services_inventorymanagement" />
+    </record> -->
+
+    </data>
+
+</odoo>

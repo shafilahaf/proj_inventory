@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- movement List-->
+    <!-- Tree -->
+    <!-- <record id="movement_view_tree" model="ir.ui.view">
+        <field name="name">movement.view.tree</field>
+        <field name="model">ae.movement.header</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="document_no" />
+                <field name="entry_type" />
+                <field name="status" />
+            </tree>
+        </field>
+    </record> -->
+
+    <!-- Search -->
+    
+
+    <!-- Form -->
+    <record id="movement_view_form" model="ir.ui.view">
+        <field name="name">movement.view.form</field>
+        <field name="model">ae.movement.header</field>
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <header>
+                    <button string="Posting" name="action_posting_invle" type="object" class="oe_highlight" attrs="{'invisible': [('status','=','posted')] }"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Scan Update" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="document_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="document_no" placeholder="e.g. Document 0001"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="posting_date" attrs="{'readonly': [('status', 'in', ['posted'])]}"/>
+                        <field name="entry_type" attrs="{'readonly': [('status', 'in', ['posted'])]}" invisible="1"/>
+                        <field name="user" />
+                        <field name="inventory_location_code" attrs="{'readonly': [('status', 'in', ['posted'])]}" string="To Location" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="inventory_room_code" attrs="{'readonly': [('status', 'in', ['posted'])]}" string="To Room" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="inventory_sub_room_code" attrs="{'readonly': [('status', 'in', ['posted'])]}" string="To Subroom" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="available_rooms" invisible="1"/>
+                        <field name="available_sub_rooms" invisible="1"/>
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="movement_line" attrs="{'readonly': [('status', 'in', ['posted'])]}">
+                            <tree editable="bottom" class="custom_width_scanupdate">
+                                <field name="header_id" invisible="1" />
+                                <field name="entry_type" invisible="1"/>
+                                <field name="inventory_picture" widget="image" height="50" force-save="1" string="Picture"/>
+                                <field name="inventory_label" string="Label"/>
+                                <field name="inventory" domain="[('inventory_type','in', [1, 2])]" string="Name" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <!-- <field name="inventory_label"/> -->
+                                <field name="asset_number" string="Asset No"/>
+                                <field name="from_location" string="Location"/>
+                                <field name="from_room" string="Room"/>
+                                <field name="from_sub_room" string="Sub Room"/>
+                                <field name="uom" invisible="1" force_save="1"/>
+                                <field name="quantity" invisible="1"/>
+                                <field name="remarks"/>
+                                <field name="create_by" />
+                                <field name="create_scan_date" string="Date Time" force_save="1"/>
+                            </tree>
+                            <form>
+                                <field name="entry_type" invisible="1"/>
+                                <field name="inventory_label" />
+                                <field name="inventory"/>
+                                <field name="inventory_picture" widget="image" height="50" force-save="1"/>
+                                <field name="inventory_number"/>
+                                <!-- <field name="inventory_label"/> -->
+                                <field name="asset_number"/>
+                                <field name="from_location"/>
+                                <field name="from_room" />
+                                <field name="from_sub_room" />
+                                <field name="to_location"/>
+                                <field name="uom" force_save="1" />
+                                <field name="quantity" invisible="1" force_save="1"/>
+                                <field name="remarks"/>
+                                <field name="create_by" />
+                                <field name="create_scan_date" force_save="1"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- movement List -->
+
+    <!-- Sequence -->
+    <record id="sequence_ae_movement" model="ir.sequence">
+        <field name="name">AE Movement</field>
+        <field name="code">ae.movement.header</field>
+        <field name="prefix">SCN-%(day)s%(month)s%(y)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+    <!-- Sequence -->
+ 
+
+</odoo>

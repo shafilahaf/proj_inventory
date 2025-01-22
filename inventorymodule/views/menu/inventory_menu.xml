@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- StartActions -->
+<record id="action_ae_inventory" model="ir.actions.act_window">
+    <field name="name">Inventory</field>
+    <field name="res_model">ae.inventory</field>
+    <field name="domain">[('inventory_type','in', [1,2])]</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<record id="action_ae_inventory_all" model="ir.actions.act_window">
+    <field name="name">Inventory</field>
+    <field name="res_model">ae.inventory</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<!--usign odoo model-->
+<!-- <record id="action_ae_user_login_logs" model="ir.actions.act_window">
+    <field name="name">User Logs</field>
+    <field name="res_model">res.users</field>
+    <field name="view_mode">tree</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('ae_user_login_logs_view_tree')})]"/>
+</record> --> 
+
+<!-- using TR model -->
+<record id="action_ae_update_logs_2" model="ir.actions.act_window">
+    <field name="name">Update Logs</field>
+    <field name="res_model">ae.user.logs</field>
+    <field name="view_mode">tree</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+</record>
+
+<!-- User Login -->
+<!-- <record id="action_ae_user_logs" model="ir.actions.act_window">
+    <field name="name">User Logs</field>
+    <field name="res_model">res.users.logger</field>
+    <field name="view_mode">tree</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+</record> -->
+
+<!-- Audit Logs -->
+<record id="action_ae_audit_logs" model="ir.actions.act_window">
+    <field name="name">Update Logs</field>
+    <field name="res_model">auditlog.log</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+</record>
+
+<!-- <record id="action_ae_mail" model="ir.actions.act_window">
+    <field name="name">Update Logs</field>
+    <field name="res_model">mail.message</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('ae_update_logs_view_tree')})]"/>
+</record> -->
+
+<record id="action_ae_inventory_attractive_items_type" model="ir.actions.act_window">
+    <field name="name">Attractive Items</field>
+    <field name="res_model">ae.inventory</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('inventory_type','=','3')]</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('ae_inventory_attactrive_items_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('ae_inventory_attactrive_items_view_form')})]"/>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<record id="action_ae_inventory_settling_kits_type" model="ir.actions.act_window">
+    <field name="name">Settling Kit Item Lists</field>
+    <field name="res_model">ae.inventory</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('inventory_type','=','5')]</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('ae_inventory_settling_kits_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('ae_inventory_settling_kits_view_form')})]"/>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<record id="action_ae_inventory_stasup_type" model="ir.actions.act_window">
+    <field name="name">Stationery and Supplies</field>
+    <field name="res_model">ae.inventory</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('inventory_type','=','4')]</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('ae_inventory_stationarysupplies_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('ae_inventory_stationarysupplies_form')})]"/>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<!--Attractive Journal-->
+<record id="action_ae_item_journal_attractive_items" model="ir.actions.act_window">
+    <field name="name">Attractive Item Journal Form</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">form</field>
+    <field name="domain">[('item_type','=','1')]</field>
+    <field name="context">{'delete': False}</field>
+    <field name="target">current</field>
+    <!-- <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_att_items_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_att_items_view_form')})]"/> -->
+</record>
+
+<record id="action_ae_item_journal_attractive_items_lists" model="ir.actions.act_window">
+    <field name="name">Attractive Item Journal Line</field>
+    <field name="res_model">ae.itemjournal.line</field>
+    <field name="view_mode">tree</field>
+    <field name="domain">[('entry_type','in',['1', '2']), ('status_header', '=', 'posted'), ('item_type', '=', '1')]</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+    <!-- <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_att_items_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_att_items_view_form')})]"/> -->
+</record>
+
+<record id="action_ae_item_journal_attractive_items_posted_lists" model="ir.actions.act_window">
+    <field name="name">Attractive Item Journal List</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('entry_type','in',['1', '2']), ('item_type','=','1')]</field> <!--, ('state', '=', 'posted')-->
+    <field name="context">{'create': True, 'edit': True, 'delete': False}</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_att_items_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_att_items_view_form')})]"/>
+</record>
+<!--Attractive Journal-->
+
+<!-- Consumption Journal    -->
+<record id="action_ae_item_journal_attractive_items_consumption" model="ir.actions.act_window">
+    <field name="name">Consumption Journal Form</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">form</field>
+    <field name="domain">[('item_type','=','1'), ('entry_type','in',['3'])]</field>
+    <field name="context">{'delete': False}</field>
+    <!-- <field name="target">inline</field> -->
+    <field name="target">current</field>
+    <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_att_items_consumption_view_form')})]"/>
+</record>
+
+<record id="action_ae_item_journal_attractive_items_lists_consumption" model="ir.actions.act_window">
+    <field name="name">Consumption Journal Line</field>
+    <field name="res_model">ae.itemjournal.line</field>
+    <field name="view_mode">tree</field>
+    <field name="domain">[('entry_type','in',['3']), ('status_header', '=', 'posted')]</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+    <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_att_line_consumption_view_tree')})]"/>
+</record>
+
+<record id="action_ae_item_journal_attractive_items_consumption_posted_list" model="ir.actions.act_window">
+    <field name="name">Consumption Journal List</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('entry_type','in',['3'])]</field> <!--, ('state', '=', 'posted')-->
+    <field name="context">{'create': True, 'edit': True, 'delete': False}</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_att_items_consumption_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_att_items_consumption_view_form')})]"/>
+</record>
+<!-- Consimption Journal    -->
+
+<!-- Purchase Journal Stationery-->
+<record id="action_ae_item_journal_purchase" model="ir.actions.act_window">
+    <field name="name">Purchase Journal Form</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">form</field>
+    <field name="domain">[('entry_type','=','4')]</field>
+    <field name="context">{'delete': False}</field>
+    <field name="target">current</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_purchase_view_form')})]"/>
+</record>
+
+<record id="action_ae_item_journal_purchase_posted_list" model="ir.actions.act_window">
+    <field name="name">Purchase Journal List</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('entry_type','=','4')]</field> <!--, ('state', '=', 'posted')-->
+    <field name="context">{'create': True, 'edit': True, 'delete': False}</field>
+    <!-- <field name="target">inline</field> -->
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_purchase_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_purchase_view_form')})]"/>
+</record>
+
+<record id="action_ae_item_journal_purchase_lists" model="ir.actions.act_window">
+    <field name="name">Purchase Journal Line</field>
+    <field name="res_model">ae.itemjournal.line</field>
+    <field name="view_mode">tree</field>
+    <field name="domain">[('entry_type','in',['4']),('item_type','=','2'), ('status_header', '=', 'posted')]</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+    <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_purchase_line')})]"/>
+</record>
+<!-- Purchase Journal Stationery-->
+
+<!-- Sales Journal Stationery-->
+<record id="action_ae_item_journal_sales" model="ir.actions.act_window">
+    <field name="name">Sales Journal Form</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">form</field>
+    <field name="domain">[('entry_type','=','5')]</field>
+    <field name="context">{'delete': False}</field>
+    <field name="target">current</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_sales_view_form')})]"/>
+</record>
+
+<record id="action_ae_item_journal_sales_posted" model="ir.actions.act_window">
+    <field name="name">Sales Journal List</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('entry_type','=','5')]</field> <!--, ('state', '=', 'posted')-->
+    <field name="context">{'create': True, 'edit': True, 'delete': False}</field>
+    <!-- <field name="target">inline</field> -->
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_sales_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_sales_view_form')})]"/>
+</record>
+
+<record id="action_ae_item_journal_sales_lists" model="ir.actions.act_window">
+    <field name="name">Sales Journal Line</field>
+    <field name="res_model">ae.itemjournal.line</field>
+    <field name="view_mode">tree</field>
+    <field name="domain">[('entry_type','in',['5']),('item_type','=','2'), ('status_header', '=', 'posted')]</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+    <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_sales_line')})]"/>
+</record>
+<!-- Sales Journal Stationery-->
+
+<!-- Stationery Journal-->
+<record id="action_ae_item_journal_stasup" model="ir.actions.act_window">
+    <field name="name">Stationery and Supplies Journal Form</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">form</field>
+    <field name="domain">[('item_type','=','2'), ('entry_type','not in',[4,5])]</field>
+    <field name="context">{'delete': False}</field>
+    <field name="target">current</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_stasup_view_form')})]"/>
+</record>
+
+<record id="action_ae_item_journal_stasup_lists_posted" model="ir.actions.act_window">
+    <field name="name">Stationery and Supplies Journal List</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">form</field>
+    <field name="domain">[('item_type','=','2'), ('entry_type','in',[1,2])]</field> <!--, ('state', '=', 'posted')-->
+    <field name="context">{'create': True, 'edit': True, 'delete': False}</field>
+    <!-- <field name="target">inline</field> -->
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_stasup_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_stasup_view_form')})]"/>
+</record>
+
+<record id="action_ae_item_journal_stasup_lists" model="ir.actions.act_window">
+    <field name="name">Stationery and Supplies Journal Line</field>
+    <field name="res_model">ae.itemjournal.line</field>
+    <field name="view_mode">tree</field>
+    <field name="domain">[('entry_type','in',['1', '2']),('item_type','=','2'), ('status_header', '=', 'posted')]</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+    <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_stasup_line')})]"/>
+</record>
+
+<record id="action_ae_item_journal_setkit" model="ir.actions.act_window">
+    <field name="name">Settling Kit Journal Form</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">form</field>
+    <field name="domain">[('item_type','=','3')]</field>
+    <field name="context">{'delete': False}</field>
+    <field name="target">current</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_setkit_view_form')})]"/>
+</record>
+
+<record id="action_ae_item_journal_setkit_line" model="ir.actions.act_window">
+    <field name="name">Settling Kit Journal Line</field>
+    <field name="res_model">ae.itemjournal.line</field>
+    <field name="view_mode">tree</field>
+    <field name="domain">[('entry_type','in',['1', '2']), ('item_type','=','3'), ('status_header', '=', 'posted')]</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+    <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_setkit_settlingkit_view_tree')})]"/>
+</record>
+
+<record id="action_ae_item_journal_setkit_posted_list" model="ir.actions.act_window">
+    <field name="name">Settling Kit Journal List</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('item_type','=','3')]</field> <!--, ('state', '=', 'posted')-->
+    <field name="context">{'create': True, 'edit': True, 'delete': False}</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_setkits_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_setkit_view_form')})]"/>
+</record>
+
+<record id="action_ae_inventory_master_group" model="ir.actions.act_window">
+    <field name="name">Inventory Master Group</field>
+    <field name="res_model">ae.inventory.master.group</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<record id="action_ae_location" model="ir.actions.act_window">
+    <field name="name">Location</field>
+    <field name="res_model">ae.location</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<record id="action_ae_disposal" model="ir.actions.act_window">
+    <field name="name">Disposal Inventory</field>
+    <field name="res_model">ae.disposal.header</field>
+    <field name="domain">[('inventory_type','in', ['1', '2'])]</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<record id="action_ae_disposal_released" model="ir.actions.act_window">
+    <field name="name">Released Disposal Inventory</field>
+    <field name="res_model">ae.disposal.header</field>
+    <field name="domain">[('status','=','released')]</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+</record>
+
+<record id="action_ae_disposal_posted" model="ir.actions.act_window">
+    <field name="name">Posted Disposal Inventory</field>
+    <field name="res_model">ae.disposal.header</field>
+    <field name="domain">[('status','=','posted')]</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+</record>
+
+<record id="action_ae_disposal_setkit" model="ir.actions.act_window">
+    <field name="name">Disposal Settling Kit</field>
+    <field name="res_model">ae.disposal.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('inventory_type','=','2')]</field>
+    <field name="context">{'delete': False}</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('disposal_setkit_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('disposal_setkit_view_form')})]"/>
+</record>
+
+<record id="action_ae_disposal_setkit_released" model="ir.actions.act_window">
+    <field name="name">Released Disposal Settling Kit</field>
+    <field name="res_model">ae.disposal.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('status','=','released')]</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('disposal_setkit_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('disposal_setkit_view_form')})]"/>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+</record>
+
+<record id="action_ae_disposal_setkit_posted" model="ir.actions.act_window">
+    <field name="name">Posted Disposal Settling Kit</field>
+    <field name="res_model">ae.disposal.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('status','=','posted')]</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('disposal_setkit_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('disposal_setkit_view_form')})]"/>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+</record>
+
+<record id="action_ae_master_room" model="ir.actions.act_window">
+    <field name="name">Master Room</field>
+    <field name="res_model">ae.master.room</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<record id="action_ae_master_sub_room" model="ir.actions.act_window">
+    <field name="name">Master Sub Room</field>
+    <field name="res_model">ae.master.sub.room</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<record id="action_settling_kit_master_group" model="ir.actions.act_window">
+    <field name="name">Settling Kit Master Group</field>
+    <field name="res_model">ae.settling.master.group</field>
+    <field name="view_mode">tree</field>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<!-- Customer Action -->
+<record id="action_ae_master_customer" model="ir.actions.act_window">
+    <field name="name">Master Customer</field>
+    <field name="res_model">ae.master.customer</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+<!-- Customer Action- end -->
+
+<!-- Vendor Action -->
+<record id="action_ae_master_vendor" model="ir.actions.act_window">
+    <field name="name">Master Vendor</field>
+    <field name="res_model">ae.master.vendor</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+<!-- Vendor Action- end -->
+
+<!-- Agency Action -->
+<record id="action_ae_master_agency" model="ir.actions.act_window">
+    <field name="name">Master Agency</field>
+    <field name="res_model">ae.master.agency</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+<!-- Agency Action- end -->
+
+<!-- Sales Return -->
+<record id="action_ae_item_journal_salesreturn" model="ir.actions.act_window">
+    <field name="name">Sales Return Journal Form</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">form</field>
+    <field name="domain">[('entry_type','=','6')]</field>
+    <field name="context">{'delete': False}</field>
+    <field name="target">current</field>
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_stasup_salesreturn_view_form')})]"/>
+</record>
+
+<record id="action_ae_item_journal_salesreturn_posted_list" model="ir.actions.act_window">
+    <field name="name">Sales Return Journal List</field>
+    <field name="res_model">ae.itemjournal.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('entry_type','=','6')]</field> <!--, ('state', '=', 'posted')-->
+    <field name="context">{'create': True, 'edit': True, 'delete': False}</field>
+    <!-- <field name="target">inline</field> -->
+    <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_stasup_salesreturn_view_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('item_journal_stasup_salesreturn_view_form')})]"/>
+</record>
+
+<record id="action_ae_item_journal_salesreturn_lists" model="ir.actions.act_window">
+    <field name="name">Sales Return Journal Line</field>
+    <field name="res_model">ae.itemjournal.line</field>
+    <field name="view_mode">tree</field>
+    <field name="domain">[('entry_type','in',['6']),('item_type','=','2'), ('status_header', '=', 'posted')]</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+    <field name="view_ids" eval="[(5, 0, 0),(0, 0, {'view_mode': 'tree', 'view_id': ref('item_journal_stasup_salesreturn_line')})]"/>
+</record>
+<!-- Sales Return -->
+
+<!-- Settling Kit Action -->
+<record id="action_ae_settling_kit" model="ir.actions.act_window">
+    <field name="name">Settling Kit In/Out</field>
+    <field name="res_model">ae.settlingkit.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+<!-- Settling Kit Actions- end -->
+
+<!-- Auction Action -->
+<record id="action_ae_auction" model="ir.actions.act_window">
+    <field name="name">Auction</field>
+    <field name="res_model">ae.auction.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+<!-- Auction Actions- end -->
+
+<!-- Movement Action -->
+<record id="action_ae_movement_form" model="ir.actions.act_window">
+    <field name="name">Movement Form</field>
+    <field name="res_model">ae.movement.header</field>
+    <field name="view_mode">form</field>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<record id="action_ae_scan_update" model="ir.actions.act_window">
+    <field name="name">Scan Update List</field>
+    <field name="res_model">ae.movement.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('status','in',['open'])]</field>
+    <field name="context">{'delete': False}</field>
+</record>
+
+<record id="action_ae_scan_update_posted" model="ir.actions.act_window">
+    <field name="name">Posted Scan Update</field>
+    <field name="res_model">ae.movement.header</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('status','in',['posted'])]</field>
+    <field name="context">{'delete': False}</field>
+</record>
+<!-- Movement Actions- end -->
+
+<record id="action_ae_inventory_ledger_entries" model="ir.actions.act_window">
+    <field name="name">Inventory Ledger Entries</field>
+    <field name="res_model">ae.inventory.ledger.entry</field>
+    <field name="view_mode">tree</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+</record>
+<record id="action_ae_inventory_ledger_entries_dua" model="ir.actions.act_window">
+    <field name="name">Inventory Ledger Entries 2</field>
+    <field name="res_model">ae.inventory.ledger.entry</field>
+    <field name="view_mode">tree</field>
+    <field name="context">{'create': False, 'edit': True, 'delete': False}</field>
+</record>
+
+<record id="action_ae_login_logout_audit" model="ir.actions.act_window">
+    <field name="name">User Logs</field>
+    <field name="res_model">ae.login.logout.log</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<!-- Wizard -->
+<record id="action_ae_rollback_stationery_issued_wizard" model="ir.actions.act_window">
+    <field name="name">Rollback Stationary Issued</field>
+    <field name="res_model">ae.rollback.stationery.issued</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<record id="action_ae_mainspreadsheet_wizard" model="ir.actions.act_window">
+    <field name="name">Main Spreadsheet Inventory Data</field>
+    <field name="res_model">ae.inventory.main.spreadsheets.reports.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<record id="action_ae_storagemanagement_wizard" model="ir.actions.act_window">
+    <field name="name">Storage Management</field>
+    <field name="res_model">ae.storage.management.reports.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<record id="action_ae_stationeryissued_wizard" model="ir.actions.act_window">
+    <field name="name">Report Stationery Issued</field>
+    <field name="res_model">ae.inventory.stationary.issued.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<record id="action_ae_stationery_issued_list" model="ir.actions.act_window">
+    <field name="name">Report Stationery Issued Lists</field>
+    <field name="res_model">ae.stationery.issued.list</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+</record>
+
+<record id="action_ae_auction_wizard" model="ir.actions.act_window">
+    <field name="name">Auction Report</field>
+    <field name="res_model">ae.inventory.auction.report.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<record id="action_ae_residential_wizard" model="ir.actions.act_window">
+    <field name="name">Residential</field>
+    <field name="res_model">ae.residential.reports.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<record id="action_ae_residence_catalogue_wizard" model="ir.actions.act_window">
+    <field name="name">Residence Catalogue</field>
+    <field name="res_model">ae.residence.catalogue</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<!-- uom -->
+<record id="action_uomuom_ae" model="ir.actions.act_window">
+    <field name="name">Unit of Measure</field>
+    <field name="res_model">uom.uom</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<!-- Wizard -->
+
+<record id="action_ae_update_sourceprice_wizard" model="ir.actions.act_window">
+    <field name="name">Update Source Pruice</field>
+    <field name="res_model">ae.inventory.update.source.price</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+<!-- <record id="action_ae_backup_database" model="ir.actions.act_window">
+    <field name="name">Backup Database</field>
+    <field name="res_model">db.backup</field>
+    <field name="view_mode">tree,form</field>
+</record> -->
+
+<!-- 2/26/2024 -->
+<record id="action_uomuom_cat_ae" model="ir.actions.act_window">
+    <field name="name">Unit of Measure</field>
+    <field name="res_model">uom.category</field>
+    <field name="view_mode">tree,form</field>
+</record>
+<!-- 2/26/2024 -->
+
+<!-- EndActions -->
+
+<!-- StartMenuItems -->
+<menuitem id="inventory" name="Inventory" web_icon="inventorymodule,static/description/inventoryicon.png"/>
+
+<!-- Inventory -->
+<menuitem id="menu_inventory" name="Inventory" sequence="10" web_icon="inventorymodule,static/asset/inventoryicon2.png">
+    <menuitem id="ae_inventory_menu" name="Inventory" sequence="20">
+        <menuitem id="menu_inventory_master" name="Inventory" action="action_ae_inventory" sequence="1"/>
+        <menuitem id="menu_inv_master_group" name="Inventory Master Group" action="action_ae_inventory_master_group" sequence="2"/>
+        <!-- <menuitem id="ae_ile_menu" name="Miscellaneous" sequence="30">
+            <menuitem id="menu_ile_master" name="Inventory Ledger Entries" action="action_ae_inventory_ledger_entries" sequence="1"/>
+        </menuitem> -->
+    </menuitem>
+
+    <menuitem id="menu_configuration" name="Configure" sequence="40">
+        <menuitem id="ae_config_menu" name="Location" sequence="10">
+            <menuitem id="menu_location" name="Location" action="action_ae_location" sequence="1"/>
+            <menuitem id="menu_master_room" name="Master Room" action="action_ae_master_room" sequence="3"/>
+            <menuitem id="menu_master_sub_room" name="Master Sub Room" action="action_ae_master_sub_room" sequence="4"/>
+        </menuitem>
+    </menuitem>
+
+    <menuitem id="menu_reports" name="Reporting" sequence="50">
+        <menuitem id="ae_reports_menu" name="Reports" sequence="10">
+            <menuitem id="menu_mainspreadsheet" name="Main Spreadsheet Inventory" action="action_ae_mainspreadsheet_wizard" sequence="1"/>
+            <menuitem id="menu_storagemanagement" name="Storage Management" action="action_ae_storagemanagement_wizard" sequence="2"/>
+            <menuitem id="menu_residential" name="Residential" action="action_ae_residential_wizard" sequence="3"/>
+            <menuitem id="menu_residence_catalogue" name="Residence Catalogue" action="action_ae_residence_catalogue_wizard" sequence="4"/>
+        </menuitem>
+    </menuitem>
+
+    <menuitem id="menu_menu_disposal_list_asset" name="Disposal" sequence="30">
+       <menuitem id="menu_disposal_list_asset_draft" name="Disposal Inventory" action="action_ae_disposal" sequence="1"/>
+       <menuitem id="menu_disposal_list_asset_released" name="Released Disposal Inventory" action="action_ae_disposal_released" sequence="2"/>
+       <menuitem id="menu_disposal_list_asset_posted" name="Posted Disposal Inventory" action="action_ae_disposal_posted" sequence="3"/>
+    </menuitem>
+     
+
+</menuitem>
+<!-- Inventory -->
+
+<!-- Attractive Items -->
+<menuitem id="menu_attractive_items" name="Attractive Items" sequence="20" web_icon="inventorymodule,static/asset/att_item.png">
+    <menuitem id="ae_attractive_items_menu" name="Attractive Item List" sequence="30">
+        <menuitem id="menu_att_items" name="Attractive Items" action="action_ae_inventory_attractive_items_type" sequence="1"/>
+    </menuitem>
+    <menuitem id="ae_attractive_items_journalstockinout" name="Item Journal" sequence="40">
+       <!-- <menuitem id="menu_item_journal_attractive_items_form" name="Item Journal Form" action="action_ae_item_journal_attractive_items" sequence="1"/> -->
+       <menuitem id="menu_item_journal_attractive_items_list" name="Item Journal Line" action="action_ae_item_journal_attractive_items_lists" sequence="2"/>
+       <menuitem id="menu_item_journal_attractive_items_list_posted" name="Item Journal Lists" action="action_ae_item_journal_attractive_items_posted_lists" sequence="1"/>
+    </menuitem>
+    <menuitem id="ae_attractive_items_journalconsumption" name="Consumption Journal" sequence="50">
+       <!-- <menuitem id="menu_item_journal_attractive_items_consumption_form" name="Consumption Journal Form" action="action_ae_item_journal_attractive_items_consumption" sequence="1"/> -->
+       <menuitem id="menu_item_journal_attractive_items_consumption_list" name="Consumption Journal Line" action="action_ae_item_journal_attractive_items_lists_consumption" sequence="2"/>
+       <menuitem id="menu_item_journal_attractive_items_consumption_posted_list" name="Consumption Journal List" action="action_ae_item_journal_attractive_items_consumption_posted_list" sequence="1"/>
+    </menuitem>
+</menuitem>
+<!-- Attractive Items -->
+
+<!-- Settling Kit -->
+<menuitem id="menu_settling_kit_items" name="Settling Kit" sequence="30" web_icon="inventorymodule,static/asset/set_kit.png">
+    <menuitem id="menu_settling_kit_list" name="Settling Kit In/Out" action="action_ae_settling_kit" sequence="1"/>
+    <menuitem id="menu_menu_list_setkit_items" name="Settling Kit Items" sequence="2">
+       <menuitem id="menu_setkits_items" name="Settling Kit Item List" action="action_ae_inventory_settling_kits_type" sequence="1"/>
+       <menuitem id="menu_setkit_master_group" name="Settling Kit Master Group" action="action_settling_kit_master_group" sequence="2"/>
+    </menuitem>
+    <menuitem id="menu_menu_disposal_list_setkit" name="Disposal" sequence="3">
+       <menuitem id="menu_disposal_list_setkit_draft" name="Disposal Settling Kit" action="action_ae_disposal_setkit" sequence="1"/>
+       <menuitem id="menu_disposal_list_setkit_released" name="Released Disposal Settling Kit" action="action_ae_disposal_setkit_released" sequence="2"/>
+       <menuitem id="menu_disposal_list_setkit_posted" name="Posted Disposal Settling Kit" action="action_ae_disposal_setkit_posted" sequence="3"/>
+    </menuitem>
+    <menuitem id="menu_item_journal_settling_kits" name="Item Journal" sequence="4">
+       <!-- <menuitem id="menu_item_journal_settling_kits_form" name="Item Journal Form" action="action_ae_item_journal_setkit" sequence="1"/> -->
+       <menuitem id="menu_item_journal_settling_kits_lists" name="Item Journal Line" action="action_ae_item_journal_setkit_line" sequence="2"/>
+       <menuitem id="menu_item_journal_settling_kits_lists_posted" name="Item Journal List" action="action_ae_item_journal_setkit_posted_list" sequence="1"/>
+    </menuitem>
+</menuitem>
+<!-- Settling Kit -->
+
+<!-- Stationary & Supplies -->
+<menuitem id="menu_sta_sup_items" name="Stationery and Supplies" sequence="40" web_icon="inventorymodule,static/asset/sta_sup.png">
+    <menuitem id="ae_sta_sup_page_menu" name="Stationery and Supplies Items" action="action_ae_inventory_stasup_type" sequence="10" />
+    <menuitem id="ae_sta_sup_master_menu" name="Master" sequence="20">
+        <menuitem id="ae_sta_sup_master_menus" name="Sales" sequence="60">
+            <menuitem id="menu_cust_list" name="Master Customer" action="action_ae_master_customer" sequence="1"/>
+        </menuitem>
+        <menuitem id="ae_sta_sup_master_purch_menus" name="Purchase" sequence="70">
+            <menuitem id="menu_vend_list" name="Master Vendor" action="action_ae_master_vendor" sequence="1"/>
+        </menuitem>
+        <!-- 2/26/2024 -->
+        <menuitem id="ae_sta_sup_uom_cat_menus" name="Unit of Measures" sequence="80">
+            <menuitem id="menu_uom_cat_list" name="UoM Categories" action="action_uomuom_cat_ae" sequence="1"/>
+        </menuitem>
+        <!-- 2/26/2024 -->
+    </menuitem>
+    <menuitem id="ae_sta_sup_report_menu" name="Report Stationery Issued" sequence="30">
+            <menuitem id="menu_stationeryissued_report" name="Report Stationery Issued" action="action_ae_stationeryissued_wizard" sequence="1"/>
+            <menuitem id="menu_stationeryissued_lists" name="Report Stationery Issued Lists" action="action_ae_stationery_issued_list" sequence="2"/>
+    </menuitem>
+    <menuitem id="menu_item_journal_stasup_purchase" name="Purchase Journal" sequence="40">
+        <!-- <menuitem id="menu_item_journal_purchase" name="Purchase Journal Form" action="action_ae_item_journal_purchase" sequence="1"/> -->
+        <menuitem id="menu_item_journal_purchase_lists" name="Purchase Journal Line" action="action_ae_item_journal_purchase_lists" sequence="2"/>
+        <menuitem id="menu_item_journal_purchase_lists_posted" name="Purchase Journal List" action="action_ae_item_journal_purchase_posted_list" sequence="1"/>
+    </menuitem>
+    <menuitem id="menu_item_journal_stasup_sales" name="Sales Journal" sequence="50">
+         <!-- <menuitem id="menu_item_journal_sales" name="Sales Journal Form" action="action_ae_item_journal_sales" sequence="1"/> -->
+         <menuitem id="menu_item_journal_sales_lists" name="Sales Journal Line" action="action_ae_item_journal_sales_lists" sequence="2"/>
+         <menuitem id="menu_item_journal_sales_lists_posted" name="Sales Journal List" action="action_ae_item_journal_sales_posted" sequence="1"/>
+    </menuitem>
+    <menuitem id="menu_item_journal_stasup_stasups" name="Item Journal" sequence="60">
+         <!-- <menuitem id="menu_item_journal_stasup" name="Item Journal Form" action="action_ae_item_journal_stasup" sequence="1"/> -->
+         <menuitem id="menu_item_journal_stasup_lists" name="Item Journal Line" action="action_ae_item_journal_stasup_lists" sequence="2"/>
+         <menuitem id="menu_item_journal_stasup_lists_posted" name="Item Journal List" action="action_ae_item_journal_stasup_lists_posted" sequence="1"/>
+    </menuitem>
+    <menuitem id="menu_item_journal_stasup_salesreturn" name="Sales Return Journal" sequence="70">
+         <!-- <menuitem id="menu_item_journal_salesreturn" name="Sales Return Journal Form" action="action_ae_item_journal_salesreturn" sequence="1"/> -->
+         <menuitem id="menu_item_journal_stasup_lists_salesreturn" name="Sales Return Line" action="action_ae_item_journal_salesreturn_lists" sequence="2"/>
+         <menuitem id="menu_item_journal_stasup_lists_salesreturn_posted" name="Sales Return Journal List" action="action_ae_item_journal_salesreturn_posted_list" sequence="1"/>
+    </menuitem>
+</menuitem>
+<!-- Stationary & Supplies -->
+
+<!-- Auction -->
+<menuitem id="menu_auction" name="Auction" sequence="60" web_icon="inventorymodule,static/asset/auction.png">
+    <menuitem id="ae_auction_menus" name="Auction" sequence="60">
+        <menuitem id="menu_auction_list" name="Auction" action="action_ae_auction" sequence="1"/>
+    </menuitem>
+    <!-- <menuitem id="ae_agencies_menus" name="Agency" sequence="70">
+       <menuitem id="menu_agency_list" name="Agency" action="action_ae_master_agency" sequence="1"/>
+    </menuitem> -->
+    <!-- <menuitem id="ae_aution_report_menu" name="Reporting" sequence="80">
+        <menuitem id="menu_auction_report" name="Auction Report" action="action_ae_auction_wizard" sequence="1"/>
+    </menuitem> -->
+</menuitem>
+<!-- Auction -->
+
+<!-- Movement -->
+<menuitem id="menu_movement" name="Scan Update" sequence="70" web_icon="inventorymodule,static/asset/movement.png">
+    <menuitem id="menu_menu_movement_form" name="Scan Update" action="action_ae_movement_form" sequence="1"/>
+    <menuitem id="menu_menu_movement_list" name="Scan Update List" action="action_ae_scan_update" sequence="2"/>
+    <menuitem id="menu_menu_movement_list_posted" name="Posted Scan Update" action="action_ae_scan_update_posted" sequence="3"/>
+</menuitem>
+<!-- Movement -->
+
+<!-- Ledger Entries -->
+<menuitem id="menu_ledger_entries" name="Ledger Entries" sequence="80" web_icon="inventorymodule,static/asset/ledger.png">
+    <menuitem id="ae_menu_ile_menus" name="Inventory Ledger Entries" sequence="10">
+        <menuitem id="menu_ile_master" name="Inventory Ledger Entries" action="action_ae_inventory_ledger_entries" sequence="1"/>
+        <menuitem id="menu_ile_master_dua" name="Inventory Ledger Entries 2" action="action_ae_inventory_ledger_entries_dua" sequence="2" groups="base.group_no_one"/>
+    </menuitem>
+</menuitem>
+<!-- Ledger Entries -->
+
+<!-- Disposal -->
+<!-- <menuitem id="menu_disposal" name="Disposal" sequence="80" web_icon="inventorymodule,static/asset/disposal.png">
+    <menuitem id="ae_menu_disposal_menus" name="Disposal" sequence="60">
+        <menuitem id="menu_menu_disposal_list_asset" name="Disposal Asset" action="action_ae_disposal" sequence="1"/>
+        <menuitem id="menu_menu_disposal_list_setkit" name="Disposal Settling Kit" action="action_ae_disposal_setkit" sequence="2"/>
+    </menuitem>
+</menuitem> -->
+<!-- Disposal -->
+
+<!-- User Logs -->
+<!-- <menuitem id="menu_userlog" name="User Log" sequence="90" web_icon="inventorymodule,static/asset/userlogs.png">
+    <menuitem id="ae_menu_uselog_menus" name="User Log" sequence="60">
+        <menuitem id="menu_menu_userlog_list" name="User Logs" action="action_ae_user_login_logs_2" sequence="1"/>
+    </menuitem>
+    <menuitem id="ae_menu_updatelogs_menus" name="Update Log" sequence="70">
+        <menuitem id="menu_menu_update_logs_list" name="Update Logs" action="action_ae_mail" sequence="2"/>
+    </menuitem>
+</menuitem> -->
+<!-- User Logs -->
+
+<!--    Setups  -->
+<menuitem id="menu_setups" name="Setups" sequence="100" web_icon="inventorymodule,static/asset/setups.png">
+    <menuitem id="menu_location" name="Location" action="action_ae_location" sequence="1"/>
+    <menuitem id="menu_master_room" name="Master Room" action="action_ae_master_room" sequence="2"/>
+    <menuitem id="menu_master_sub_room" name="Master Sub Room" action="action_ae_master_sub_room" sequence="3"/>
+    <menuitem id="menu_agency_list" name="Agency" action="action_ae_master_agency" sequence="4"/>
+    <!-- <menuitem id="menu_updatelogs_list" name="Update Logs" action="action_ae_update_logs_2" sequence="10"/> -->
+    <!-- <menuitem id="menu_userlogs_list" name="User Logs" action="action_ae_user_logs" sequence="6"/> -->
+    
+    <menuitem id="menu_updatelogs_list2" name="Update Logs" action="action_ae_audit_logs" sequence="5"/>
+    <menuitem id="menu_userlogs_list2" name="User Logs" action="action_ae_login_logout_audit" sequence="6"/>
+    <!-- <menuitem id="menu_update_sourceprice" name="Update Source Price" action="action_ae_update_sourceprice_wizard" sequence="7"/> -->
+    <!-- Next User Log -->
+
+    <!-- <menuitem id="menu_backup_database" name="Backup Database" action="action_ae_backup_database" sequence="7"/> -->
+    <!-- <menuitem id="menu_rollback_stationery_issued" name="Rollback" action="action_ae_rollback_stationery_issued_wizard" sequence="8"/> -->
+    <!-- <menuitem id="menu_invall" name="All Inv" action="action_ae_inventory_all" sequence="8"/> -->
+    <!-- <menuitem id="menu_uomuom_ae" name="UoM" action="action_uomuom_ae" sequence="8"/> -->
+</menuitem>
+<!--    Setups  -->
+
+<!-- EndMenuItems -->
+
+</odoo>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ae_inv_ledger_entreis_view_search" model="ir.ui.view">
+        <field name="name">ae.inv.ledger.entreis.view.search</field>
+        <field name="model">ae.inventory.ledger.entry</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="inventory_label" />
+                <field name="document_no" />
+                <field name="inventory_name" />
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="ae_inv_ledger_view_tree" model="ir.ui.view">
+        <field name="name">ae.inv.ledger.view.tree</field>
+        <field name="model">ae.inventory.ledger.entry</field>
+        <field name="arch" type="xml">
+            <tree string="" editable="top">
+                <field name="entry_no" />
+                <field name="document_no" />
+                <field name="source_no" />
+                <field name="line_no" />
+                <field name="inventory_name" />
+                <field name="document_type" />
+                <field name="inventory_type" />
+                <field name="entry_type" />
+                <field name="inventory_label" />
+                <field name="inventory_number" />
+                <field name="inventory_group" />
+                <field name="asset_number" />
+                <field name="posting_date" />
+                <field name="delivery_date" />
+                <field name="returned_date" />
+                <field name="from_location_code" />
+                <field name="to_location_code" />
+                <field name="location_code" />
+                <field name="room_code" />
+                <field name="sub_room_code" />
+                <field name="quantity" />
+                <field name="return_quantity" />
+                <field name="source_price" />
+                <field name="source_price_purchase" />
+                <field name="ratio_purchase" />
+                <field name="source_name" />
+                <field name="remarks" />
+                <field name="unit_of_measure" invisible="1"/>
+                <!-- <field name="unit_of_measure" /> -->
+            </tree>
+        </field>
+    </record>
+
+    <record id="ae_inv_ledger_view_form" model="ir.ui.view">
+        <field name="name">ae.inv.ledger.view.form</field>
+        <field name="model">ae.inventory.ledger.entry</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ae_inv_ledger_view_tree_salesreturn" model="ir.ui.view">
+        <field name="name">ae.inv.ledger.view.tree</field>
+        <field name="model">ae.inventory.ledger.entry</field>
+        <field name="priority" eval="18" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="document_no" />
+                <field name="inventory_name" />
+                <field name="inventory_label" />
+                <field name="entry_type" />
+                <field name="qty_sales" string="Quantity"/>
+                <field name="source_price" />
+                <field name="source_name" />
+            </tree>
+        </field>
+    </record>
+
+</odoo>

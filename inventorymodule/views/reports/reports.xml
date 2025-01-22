@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Paperformat -->
+    <!-- <record id="report_qweb_paperformat_landscape_a4" model="report.paperformat">
+        <field name="name">Report A4 Landscape</field>
+        <field name="default" eval="True"/>            
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field> 
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">32</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">15</field>
+        <field name="dpi">90</field>
+    </record> -->
+
+    <!-- <record id="report_qweb_paperformat_potrait_a4" model="report.paperformat">
+        <field name="name">Report A4 Landscape</field>
+        <field name="default" eval="True"/>            
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field> 
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">32</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">15</field>
+        <field name="dpi">90</field>
+    </record> -->
+
+    <!-- <record id="paperformat_euro_residential" model="report.paperformat">
+        <field name="name">A4 Residential</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">32</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">15</field>
+        <field name="dpi">90</field>
+    </record> -->
+
+    <record id="report_qweb_paperformat_landscape_a4" model="report.paperformat">
+            <field name="name">AE A4 Landscape</field>
+            <field name="default" eval="True"/>            
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field> 
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+    </record>
+
+    <record id="report_qweb_paperformat_portrait_a4" model="report.paperformat">
+            <field name="name">AE A4 Portrait</field>
+            <field name="default" eval="True"/>            
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field> 
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">1</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+    </record>
+    
+        
+
+    <!-- Paperformat -->
+
+    <!-- MainSpreadsheet Data Report -->
+    <record id="action_report_mainspreadsheet" model="ir.actions.report">
+        <field name="name">MainSpreadsheet Data</field>
+        <field name="model">ae.inventory.main.spreadsheets.reports.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventorymodule.report_mainspreadsheet</field>
+        <field name="report_file">inventorymodule.report_mainspreadsheet</field>
+        <field name="binding_model_id" ref="model_ae_inventory_main_spreadsheets_reports_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_qweb_paperformat_landscape_a4"/>
+    </record>
+
+    <record id="action_report_stationaryissued" model="ir.actions.report">
+        <field name="name">Stationery Issued</field>
+        <field name="model">ae.inventory.stationary.issued.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventorymodule.report_stationaryissued</field>
+        <field name="report_file">inventorymodule.report_stationaryissued</field>
+        <field name="binding_model_id" ref="model_ae_inventory_stationary_issued_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_qweb_paperformat_portrait_a4"/>
+    </record>
+
+    <!-- <record id="action_report_stationaryissued2" model="ir.actions.report">
+        <field name="name">Stationery Issued</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventorymodule.report_stationaryissued2</field>
+        <field name="report_file">inventorymodule.report_stationaryissued2</field>
+        <field name="binding_model_id" ref="model_ae_itemjournal_header"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_qweb_paperformat_potrait_a4"/>
+    </record> -->
+
+    <record id="action_report_settlingkitsinout" model="ir.actions.report"> <!--Per Docs-->
+        <field name="name">Settling Kits In/Out</field>
+        <field name="model">ae.settlingkit.header</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventorymodule.report_settlingkitsinout</field>
+        <field name="report_file">inventorymodule.report_settlingkitsinout</field>
+        <!-- <field name="binding_model_id" ref="model_ae_settlingkit_header"/> -->
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_qweb_paperformat_portrait_a4"/>
+    </record>
+
+    <!-- <record id="action_report_auction" model="ir.actions.report">
+        <field name="name">Auction Report</field>
+        <field name="model">ae.auction.header</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventorymodule.report_auction</field>
+        <field name="report_file">inventorymodule.report_auction</field>
+        <field name="binding_model_id" ref="model_ae_auction_header"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_qweb_paperformat_potrait_a4"/>
+    </record> -->
+
+    <record id="action_report_inventorydisposal" model="ir.actions.report"> <!--Per Docs-->
+        <field name="name">Inventory Disposal</field>
+        <field name="model">ae.disposal.header</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventorymodule.report_inventorydisposal</field>
+        <field name="report_file">inventorymodule.report_inventorydisposal</field>
+        <!-- <field name="binding_model_id" ref="model_ae_disposal_header"/> -->
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_qweb_paperformat_portrait_a4"/>
+        <field name="binding_model_id" eval="False"/>
+    </record>
+
+    <record id="action_report_inventorydisposalsetkit" model="ir.actions.report"> <!--Per Docs-->
+        <field name="name">Settling Kit Disposal</field>
+        <field name="model">ae.disposal.header</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventorymodule.report_inventorydisposalsetkit</field>
+        <field name="report_file">inventorymodule.report_inventorydisposalsetkit</field>
+        <!-- <field name="binding_model_id" ref="model_ae_disposal_header"/> -->
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_qweb_paperformat_portrait_a4"/>
+        <field name="binding_model_id" eval="False"/>
+    </record>
+
+    <record id="action_report_residential" model="ir.actions.report">
+        <field name="name">Residential</field>
+        <field name="model">ae.residential.reports.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventorymodule.report_residential</field>
+        <field name="report_file">inventorymodule.report_residential</field>
+        <field name="binding_model_id" ref="model_ae_residential_reports_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_qweb_paperformat_landscape_a4"/>
+    </record>
+
+    <record id="action_report_auction" model="ir.actions.report">
+        <field name="name">Auction Report</field>
+        <field name="model">ae.auction.header</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventorymodule.report_auction</field>
+        <field name="report_file">inventorymodule.report_auction</field>
+        <!-- <field name="binding_model_id" ref="model_ae_auction_header"/> -->
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_qweb_paperformat_landscape_a4"/>
+        <field name="binding_model_id" eval="False"/>
+    </record>
+
+    <record id="action_report_storagemanagementdua" model="ir.actions.report">
+        <field name="name">Storage Management</field>
+        <field name="model">ae.storage.management.reports.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventorymodule.report_storagemanagementdua</field>
+        <field name="report_file">inventorymodule.report_storagemanagementdua</field>
+        <field name="binding_model_id" ref="model_ae_storage_management_reports_wizard"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_qweb_paperformat_portrait_a4"/>
+        <!-- <field name="paperformat_id" ref="report_qweb_paperformat_landscape_a4"/> -->
+    </record>
+
+    <record id="action_report_residence_catalogue" model="ir.actions.report">
+        <field name="name">Residence Catalogue</field>
+        <field name="model">ae.residence.catalogue</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">inventorymodule.report_residence_catalogue</field>
+        <field name="report_file">inventorymodule.report_residence_catalogue</field>
+        <field name="binding_model_id" ref="model_ae_residence_catalogue"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="report_qweb_paperformat_landscape_a4"/>
+    </record>
+
+</odoo>

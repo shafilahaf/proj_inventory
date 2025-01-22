@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Settling Kit List-->
+    <!-- Tree -->
+    <record id="settling_kit_view_tree" model="ir.ui.view">
+        <field name="name">settling.kit.view.tree</field>
+        <field name="model">ae.settlingkit.header</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="document_no" />
+                <field name="settling_type" />
+                <field name="tenant_name" />
+                <field name="location_name" />
+                <field name="returned_date" />
+                <field name="status" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search -->
+    <record id="settling_kit_view_search" model="ir.ui.view">
+        <field name="name">settling.kit.view.search</field>
+        <field name="model">ae.settlingkit.header</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="posting_date_only" />
+                <field name="document_no" />
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="settling_kit_view_form" model="ir.ui.view">
+        <field name="name">settling.kit.view.form</field>
+        <field name="model">ae.settlingkit.header</field>
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                 <header>
+                    <button string="Post Delivery" name="action_posting_shipped" type="object" class="oe_highlight" attrs="{'invisible': [('status','in',['shipped', 'returned'])] }"/>
+                    <button string="Post Return" name="action_posting_returned" type="object" class="oe_highlight" attrs="{'invisible': [('status','in',['returned'])] }"/>
+                    <button string="Print" name="action_print_setkit_report" type="object" class="oe_highlight" attrs="{'invisible': [('status','in',['open'])] }" confirm="Are you sure you want to print this document?"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+
+                    <widget name="web_ribbon" title="Settling Kit In/Out" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="document_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="document_no" placeholder="e.g. Document 0001"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <!-- <field name="document_no" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}"/> -->
+                        <field name="settling_type" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}"/>
+                        <field name="posting_date" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}"/>
+                        <field name="location_name" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}" string="To Location" domain="[('location_type','=',4)]" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="tenant_name" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}"/>
+                        <field name="agency_name" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <!-- <field name="tenant_address" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}"/> -->
+                        <field name="delivery_date"  attrs="{'required': [('status', 'in', ['shipped', 'open'])], 'readonly':[('status', 'in', ['shipped', 'returned'])]}"/>
+                        <field name="returned_date" attrs="{'required': [('status', '=', 'shipped')], 'readonly':[('status', 'in', ['returned', 'open'])]}" force_save="1"/>
+                        <field name="is_non_dfat" force_save="1" />
+                        <field name="notes" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}"/>
+                        <field name="total_quantity_returned" force_save="1" invisible="1"/>
+                        <field name="total_quantity_shipped" force_save="1" invisible="1"/>
+                        <!-- <field name="status" /> -->
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="settling_kit_line_ids" attrs="{'readonly': [('status', 'in', ['returned'])]}">
+                            <tree editable="bottom" class="custom_width_setkit">
+                                <field name="settling_kit_header_id" invisible="1" />
+                                <field name="line_no"/>
+                                <!-- <field name="inventory"/> -->
+                                <field name="inventory_label"/>
+                                <field name="inventory" domain="[('inventory_type','=','5')]" string="Inventory Name" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}" context="{'tree_view_ref': 'inventorymodule.ae_inventory_settling_kits_inout_view_tree'}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <!-- <field name="inventory_no" attrs="{'readonly': [('status', 'in', ['shipped', 'returned','open'])]}"/> -->
+                                
+                                <!-- <field name="to_location_line" attrs="{'readonly': [('status', 'in', ['shipped', 'returned', 'open'])]}"/> -->
+                                <!-- <field name="from_location_line" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}"/> -->
+                                <field name="unit_of_measure" attrs="{'readonly': [('status', 'in', ['shipped', 'returned', 'open'])]}" force_save="1"/>
+                                <field name="quantity" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}"/>
+                                <field name="return_quantity" attrs="{'required': [('status', '=', 'shipped')], 'readonly':[('status', 'in', ['returned', 'open'])]}"/>
+                                <field name="notes" attrs="{'required': [('status', '=', 'shipped')], 'readonly':[('status', 'in', ['returned', 'open'])]}"/>
+                                <field name="status" invisible="1"/>
+                            </tree>
+                            <form>
+                                <field name="line_no" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}"/>
+                                <field name="inventory" domain="[('inventory_type','=','5')]" string="Inventory Name" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="inventory_no" attrs="{'readonly': [('status', 'in', ['shipped', 'returned', 'open'])]}"/>
+                                <field name="inventory_label" attrs="{'readonly': [('status', 'in', ['shipped', 'returned', 'open'])]}"/>
+                                <field name="to_location_line" />
+                                <field name="unit_of_measure" attrs="{'readonly': [('status', 'in', ['shipped', 'returned', 'open'])]}" force_save="1"/>
+                                <field name="quantity" attrs="{'readonly': [('status', 'in', ['shipped', 'returned'])]}"/>
+                                <field name="return_quantity" attrs="{'required': [('status', '=', 'shipped')], 'readonly':[('status', 'in', ['returned', 'open'])]}"/>
+                                <field name="notes" attrs="{'required': [('status', '=', 'shipped')], 'readonly':[('status', 'in', ['returned', 'open'])]}"/>
+                                <!-- <field name="notes" attrs="{'required': [('return_quantity', '!=', quantity), ('status', '=', 'shipped')], 'readonly':[('status', 'in', ['returned', 'open'])]}"/> -->
+                                <field name="status" invisible="1"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Settling Kit List -->
+
+    <!-- Sequence -->
+    <record id="sequence_ae_settlingkit_default" model="ir.sequence">
+        <field name="name">AE Settling Kit Default</field>
+        <field name="code">ae.settlingkit.header</field>
+        <field name="prefix">SKIO-%(day)s%(month)s%(y)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+    <!-- Sequence -->
+
+</odoo>

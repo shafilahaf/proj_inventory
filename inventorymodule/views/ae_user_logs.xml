@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="ae_user_logs_view_tree" model="ir.ui.view">
+        <field name="name">ae.user.logs.view.tree</field>
+        <field name="model">ae.user.logs</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="user_id" />
+                <field name="module" />
+                <field name="action_date" />
+                <field name="action_description" />
+            </tree>
+        </field>
+    </record>
+</odoo>

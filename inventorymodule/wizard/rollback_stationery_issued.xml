@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="ae_stationery_issued_rollback_wizard_view_form" model="ir.ui.view">
+        <field name="name">ae.stationery.issued.rollback.wizard.view.form</field>
+        <field name="model">ae.rollback.stationery.issued</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="start_date" />
+                        <field name="end_date" />                    
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_rollback" string="Rollback" type="object" class="oe_highlight" />
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

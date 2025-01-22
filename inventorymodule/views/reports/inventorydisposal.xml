@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_inventorydisposal">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: Segoe UI, Arial, sans-serif;">
+
+                        <style>
+                            <!-- tr {
+                                height: 2px;
+                                line-height: 2px;
+                            } -->
+                            /* Custom styles for the table */
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                border: 1px solid #bababa;
+                                font-family: "Segoe UI", Arial, sans-serif;
+                            }
+                            th, td {
+                                border: 1px solid #bababa;
+                                padding: 8px;
+                                text-align: center;
+                                white-space: normal; /* Allow text to wrap */
+                                overflow: hidden; /* Hide overflow */
+                                text-overflow: ellipsis; /* Display ellipsis for truncated text */
+                                max-width: 200px; /* Adjust the max-width as needed */
+                            }
+                            th {
+                                background-color: #00006a;
+                                color: #FFF;
+                                font-weight: bold;
+                                border: 1px solid #bababa;
+                            }
+                            tr:nth-child(even) {
+                                background-color: #FFF;
+                            }
+                            img {
+                                width: 100px;
+                                height: 100px;
+                                display: block;
+                                margin: auto;
+                            }
+                            tr {
+                                height: auto;
+                                line-height: auto;
+                            }
+                            tr:nth-child(even) {
+                                background-color: #EAEAEA;
+                            }
+                        </style>
+
+                        <div class="text-left">
+                            <h4>Document No : <t t-esc="o.document_no"/></h4>
+                        </div>
+                        <div class="text-right">
+                            <i>Updated : <t t-esc="o.posting_date_char"/></i>
+                        </div>
+
+                        <!-- Table -->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th colspan="9" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">ITEMS TO BE AUCTION</th>
+                                </tr>
+                                <tr>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">No.</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Picture</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Item Name</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Label</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;width:30px;">Qty</th>
+                                    <th rowspan="1" colspan="2" style="vertical-align: middle; border-top: 1px solid #bababa; border-bottom: 1px solid #bababa;color:#fff;">Condition</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Status</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Note</th>
+                                </tr>
+                                <tr>
+                                    <th style="border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Good</th>
+                                    <th style="border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Poor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.line_ids" t-as="line">
+                                    <tr>
+                                        <td><t t-esc="line.line_no"/></td>
+                                        <td>
+                                            <img t-if="line.disposal_picture" t-att-src="'data:image/png;base64,%s' % line.disposal_picture_data"/>
+                                        </td>
+                                        <td><t t-esc="line.inventory.inventory_name"/></td>
+                                        <td><t t-esc="line.inventory.inventory_label"/></td>
+                                        <td><t t-esc="line.quantity"/></td>
+                                        <td style="font-weight:bolder"><t t-if="line.condition == '1'">V</t></td>
+                                        <td style="font-weight:bolder"><t t-if="line.condition == '2'">V</t></td>
+                                        <td><span t-field="line.disposal_method" /></td>
+                                        <td><t t-esc="line.remarks"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <div class="footer">
+                        <!-- Center the page of -->
+                        <div class="text-center" style="font-family: Segoe UI, Arial, sans-serif;">
+                            Page <span class="page"/> of <span class="topage"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="ae_stationery_issued_list_view_tree" model="ir.ui.view">
+        <field name="name">ae.stationery.issued.list.view.tree</field>
+        <field name="model">ae.stationery.issued.list</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="stationery_issued_date" string="Filter Date"/>
+                <field name="stationery_issued_document" />
+                <field name="get_data_starting_date" string="Filter Starting Date"/>
+                <field name="get_data_ending_date" string="Filter Ending Date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="ae_stationery_issued_list_view_form" model="ir.ui.view">
+        <field name="name">ae.stationery.issued.view.form</field>
+        <field name="model">ae.stationery.issued.list</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+
+                    <widget name="web_ribbon" title="Stationery Issued" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <group>
+                        <field name="stationery_issued_date" string="Filter Date"/>
+                        <field name="stationery_issued_document" />
+                        <field name="get_data_starting_date" string="Filter Starting Date"/>
+                        <field name="get_data_ending_date" string="Filter Ending Date"/>
+                        <field name="stationery_printout" widget="pdf_viewer"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ae_stationery_issued_view_search" model="ir.ui.view">
+        <field name="name">ae.stationery.issued.view.search</field>
+        <field name="model">ae.stationery.issued.list</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="stationery_issued_document" />
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+</odoo>

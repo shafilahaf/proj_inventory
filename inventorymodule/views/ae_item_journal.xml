@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Search -->
+    <record id="item_journal_view_search" model="ir.ui.view">
+        <field name="name">item.journal.view.search</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="posting_date_only" />
+                <!-- <field name="posting_date" /> -->
+                <field name="reference_no" />
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+     <record id="item_journal_line_view_search" model="ir.ui.view">
+        <field name="name">item.journal.line.view.search</field>
+        <field name="model">ae.itemjournal.line</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="inventory_name" />
+                <field name="reference_no" />
+            </search>
+        </field>
+    </record>
+
+    <!-- Item Journal List, Item type = Attractive Items -->
+    <!-- Tree -->
+    <record id="item_journal_att_items_view_tree" model="ir.ui.view">
+        <field name="name">item.journal.att.items.view.tree</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="reference_no" />
+                <field name="entry_type" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="item_journal_att_items_view_form" model="ir.ui.view">
+        <field name="name">item.journal.att.items.view.form</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <header>
+                    <button string="Posting" name="action_posting_invle" type="object" class="oe_highlight" attrs="{'invisible': [('state','=','posted')] }"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Item Journal" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="reference_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="reference_no" placeholder="e.g. Document 0001" force_save="1"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group col="2">
+                        <field name="posting_date" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}"/>
+                        <field name="receipt_by" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}"/>
+                        <field name="entry_type_attractive" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)], 'required': [('posting_date', '!=', False)]}"/>
+                        <field name="item_type_attractive" readonly="1"/>
+                        <field name="item_type" invisible="1"/>
+                        <field name="entry_type" invisible="1"/>
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="item_journal_line_ids" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}">
+                            <tree editable="bottom" >
+                                <field name="item_journal_header_id" invisible="1" />
+                                <field name="line_no" />
+                                <field name="inventory_name" domain="[('inventory_type','=','3')]" context="{'form_view_ref': 'inventorymodule.ae_inventory_attactrive_items_view_form'}" options="{'no_create': True, 'no_create_edit':True}" />
+                                <field name="inventory_label_attractive" />
+                                <field name="inventory_location_code" force_save="1" invisible="1"/>
+                                <field name="inventory_room_code" force_save="1" invisible="1"/> <!-- attrs="{'required': [('entry_type', 'in', ['1', '2'])]}"-->
+                                <field name="inventory_sub_room_code" force_save="1" invisible="1"/>
+                                <field name="quantity" />
+                                <field name="unit_of_measure" force_save="1"/>
+                                <field name="remarks" attrs="{'required': [('required_field','=', True)]}"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="reference_no" invisible="1"/>
+                                <field name="posting_date" invisible="1"/>
+                                <field name="required_field" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                            </tree>
+                            <form>
+                                <field name="line_no" />
+                                <field name="inventory_name" domain="[('inventory_type','=','3')]" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="inventory_room_code" force_save="1" attrs="{'required': [('entry_type', 'in', ['1', '2'])]}"/>
+                                <field name="inventory_sub_room_code" force_save="1" attrs="{'required': [('entry_type', 'in', ['1', '2'])]}"/>
+                                <field name="quantity" />
+                                <field name="unit_of_measure" force_save="1"/>
+                                <field name="remarks" attrs="{'required': [('required_field','=', True)]}"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="reference_no" invisible="1"/>
+                                <field name="posting_date" invisible="1"/>
+                                <field name="required_field" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                                <field name="status_header" invisible="1" force_save="1" />
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree (Line) -->
+    <record id="item_journal_att_line_view_tree" model="ir.ui.view">
+        <field name="name">item.journal.att.line.view.tree</field>
+        <field name="model">ae.itemjournal.line</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="line_no" />
+                <field name="reference_no" />
+                <field name="inventory_name" />
+                <field name="inventory_location_code" />
+                <field name="inventory_room_code" />
+                <field name="inventory_sub_room_code" />
+                <field name="quantity" />
+                <field name="unit_of_measure" />
+                <field name="remarks" />
+                <field name="status_header" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Item Journal List, Item type = Attractive Items -->
+
+    <!--    Item Journal List, Item Type = Attractive Items, Entry Type Consumption -->
+    <!-- Form -->
+    <record id="item_journal_att_items_consumption_view_form" model="ir.ui.view">
+        <field name="name">item.journal.att.items.consumption.view.form</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="22" />
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <header>
+                    <button string="Posting" name="action_posting_invle" type="object" class="oe_highlight" attrs="{'invisible': [('state','=','posted')] }"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Consumption Journal" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="reference_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="reference_no" placeholder="e.g. Document 0001" force_save="1"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group col="2">
+                        <field name="posting_date" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}"/>
+                        <!-- <field name="reference_no" attrs="{'readonly': [('state', 'in', ['posted'])]}"/> -->
+                        <field name="entry_type_attractive_consumption" attrs="{'required': [('posting_date', '!=', False)]}"/>
+                        <field name="item_type_attractive" readonly="1"/>
+                        <field name="item_type" invisible="1"/>
+                        <field name="entry_type" invisible="1"/>
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="item_journal_line_ids" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}">
+                            <tree editable="bottom" >
+                                <field name="item_journal_header_id" invisible="1" />
+                                <field name="line_no" />
+                                <field name="inventory_name" domain="[('inventory_type','=','3')]" context="{'form_view_ref': 'inventorymodule.ae_inventory_attactrive_items_view_form'}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="inventory_location_code" force_save="1" invisible="1"/>
+                                <field name="inventory_room_code" force_save="1"  invisible="1"/> <!--attrs="{'required': [('entry_type', 'in', ['1', '2'])]}"-->
+                                <field name="inventory_sub_room_code" force_save="1" invisible="1"/> <!--attrs="{'required': [('entry_type', 'in', ['1', '2'])]}"-->
+                                <field name="quantity" />
+                                <field name="unit_of_measure" force_save="1"/>
+                                <field name="remarks" attrs="{'required': [('required_field','=', True)]}"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="reference_no" invisible="1"/>
+                                <field name="posting_date" invisible="1"/>
+                                <field name="required_field" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                                <field name="status_header" invisible="1" force_save="1" />
+                            </tree>
+                            <form>
+                                <field name="line_no" />
+                                <field name="inventory_name" domain="[('inventory_type','=','3')]" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="inventory_room_code" force_save="1" />
+                                <field name="inventory_sub_room_code" force_save="1" />
+                                <field name="quantity" />
+                                <field name="unit_of_measure" force_save="1"/>
+                                <field name="remarks" attrs="{'required': [('required_field','=', True)]}"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="reference_no" invisible="1"/>
+                                <field name="posting_date" invisible="1"/>
+                                <field name="required_field" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+     <!-- Tree -->
+    <record id="item_journal_att_items_consumption_view_tree" model="ir.ui.view">
+        <field name="name">item.journal.att.items.consumption.view.tree</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="22" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="reference_no" />
+                <field name="entry_type" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Tree (Line) -->
+    <record id="item_journal_att_line_consumption_view_tree" model="ir.ui.view">
+        <field name="name">item.journal.att.line.consumption.view.tree</field>
+        <field name="model">ae.itemjournal.line</field>
+        <field name="priority" eval="22" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="line_no" />
+                <field name="reference_no" />
+                <field name="inventory_name" />
+                <field name="inventory_location_code" />
+                <field name="inventory_room_code" />
+                <field name="inventory_sub_room_code" />
+                <field name="quantity" />
+                <field name="unit_of_measure" />
+                <field name="remarks" />
+            </tree>
+        </field>
+    </record>
+    <!--    Item Journal List, Item Type = Attractive Items, Entry Type Consumption -->
+
+    <!-- Item Journal List, Item type = Stationary and Supplies, Entry Type = Purchase -->
+    <!-- Tree -->
+    <record id="item_journal_purchase_view_tree" model="ir.ui.view">
+        <field name="name">item.journal.purchase.view.tree</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="18" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="reference_no" />
+                <field name="vendor_name" string="Source Name" />
+                <field name="entry_type" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="item_journal_purchase_view_form" model="ir.ui.view">
+        <field name="name">item.journal.purchase.view.form</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="18" />
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <header>
+                    <button string="Posting" name="action_posting_invle" type="object" class="oe_highlight" attrs="{'invisible': [('state','=','posted')] }"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Purchase Journal" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="reference_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="reference_no" placeholder="e.g. Document 0001" force_save="1"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="posting_date" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}"/>
+                        <field name="vendor_name" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)], 'required': [('entry_type_purchase', 'in', ['4'])]}" string="Vendor Name" force_save="1" options="{'no_create': True, 'no_create_edit':True}" />
+                        <field name="entry_type_purchase" readonly="1"/>
+                        <field name="item_type_purchase" readonly="1"/>
+                        <field name="subtotal" />
+                        <field name="item_type" invisible="1" force_save="1"/>
+                        <field name="entry_type" invisible="1" force_save="1"/>
+                        <field name="total_amount" invisible="1" force_save="1"/>
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="item_journal_line_ids" attrs="{'readonly': ['|', '|',('state', 'in', ['posted']), ('active', 'in', False), ('vendor_name', '=', False)]}"> <!--, ('vendor_name', '=', False)--> <!--Major need confirm-->
+                            <tree editable="bottom" >
+                                <field name="item_journal_header_id" invisible="1" />
+                                <field name="line_no" />
+                                <field name="inventory_name" domain="[('inventory_type','=','4')]" context="{'form_view_ref': 'inventorymodule.ae_inventory_stationarysupplies_form'}" options="{'no_quick_create': True, 'no_create': False}"/>
+                                <field name="inventory_label_purchase" />
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="source_name" readonly="1" force_save="1"/>
+                                <field name="quantity" />
+                                <field name="unit_of_measure" force_save="1"  domain="[('category_id', '=', category_inventory_unit_of_measure)]"/>
+                                <field name="source_price" attrs="{'required': [('entry_type', 'in', ['4'])]}"/>
+                                <field name="total" force_save="1"/>
+                                <field name="remarks"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                                <field name="total_source_price" force_save="1" invisible="1" />
+                                <field name="reference_no" force_save="1" invisible="1"/>
+                                <field name="status_header" invisible="1" force_save="1" />
+                                <field name="posting_date" invisible="1" force_save="1"/>
+                                <field name="category_inventory_unit_of_measure" invisible="1" force_save="1"/>
+                            </tree>
+                            <form>
+                                <field name="line_no" />
+                                <field name="inventory_name" domain="[('inventory_type','=','4')]" options="{'no_quick_create': True, 'no_create': False}"/>
+                                <field name="inventory_label_purchase" />
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="source_name" readonly="1" force_save="1"/>
+                                <field name="quantity" />
+                                <field name="unit_of_measure" force_save="1" domain="[('category_id', '=', category_inventory_unit_of_measure)]"/>
+                                <field name="source_price" attrs="{'required': [('entry_type', 'in', ['4'])]}"/>
+                                <field name="total" force_save="1"/>
+                                <field name="remarks"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                                <field name="total_source_price" force_save="1" invisible="1" />
+                                <field name="category_inventory_unit_of_measure" invisible="1" force_save="1"/>
+                            </form>
+                        </field>
+                    </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree (Line) -->
+    <record id="item_journal_purchase_line" model="ir.ui.view">
+        <field name="name">item.journal.purchase.line.view.tree</field>
+        <field name="model">ae.itemjournal.line</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="line_no" />
+                <field name="reference_no" />
+                <field name="inventory_name" />
+                <field name="inventory_label" />
+                <field name="inventory_location_code"/>
+                <field name="source_name"/>
+                <field name="quantity" />
+                <field name="unit_of_measure"/>
+                <field name="source_price"/>
+                <field name="remarks"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Item Journal List, Item type = Stationary and Supplies, Entry Type = Purchase -->
+
+    <!-- Item Journal List, Item type = Stationary and Supplies, Entry Type = Sales -->
+    <!-- Tree -->
+    <record id="item_journal_sales_view_tree" model="ir.ui.view">
+        <field name="name">item.journal.sales.view.tree</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="19" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="customer_name"/>
+                <field name="entry_type" />
+                <field name="state" />
+                <field name="isStationeryIssued" string="Report Stationery Issued"/>
+                <field name="stationery_document_no" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="item_journal_sales_view_form" model="ir.ui.view">
+        <field name="name">item.journal.sales.view.form</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="19" />
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <header>
+                    <button string="Posting" name="action_posting_invle" type="object" class="oe_highlight" attrs="{'invisible': [('state','=','posted')] }"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Sales Journal" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="reference_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="reference_no" placeholder="e.g. Document 0001" force_save="1"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="posting_date" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}"/>
+                        <field name="customer_name" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)], 'required': [('entry_type_sales', 'in', ['5'])]}" string="Source Name" force_save="1" options="{'no_create': True, 'no_create_edit':True}"/>
+                        <field name="pic" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)], 'required': [('entry_type_sales', 'in', ['5'])]}"/>
+                        <field name="entry_type_sales" readonly="1"/>
+                        <field name="item_type_sales" readonly="1"/>
+                        <field name="subtotal" />
+                        <field name="item_type" invisible="1"/>
+                        <field name="entry_type" invisible="1"/>
+                        <field name="total_amount" invisible="1" force_save="1"/>
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="item_journal_line_ids" attrs="{'readonly': ['|', '|',('state', 'in', ['posted']), ('active', 'in', False), ('customer_name', '=', False)]}"> <!--, ('customer_name', '=', False)--> <!--Major need confirm-->
+                            <tree editable="bottom" >
+                                <field name="item_journal_header_id" invisible="1" />
+                                <field name="inventory_name" domain="[('inventory_type','=','4')]" context="{'form_view_ref': 'inventorymodule.ae_inventory_stationarysupplies_form'}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="inventory_qty" force_save="1" readonly="1"/>
+                                <field name="quantity" />
+                                <!-- <field name="source_price" attrs="{'required': [('entry_type', 'in', ['5'])]}"/> -->
+                                <field name="source_price" readonly="1" force_save="1"/>
+                                <field name="unit_of_measure" force_save="1" domain="[('category_id', '=', category_inventory_unit_of_measure)]"/>
+                                <field name="total" force_save="1"/>
+                                <field name="remarks"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                                <field name="total_source_price" force_save="1" invisible="1" />
+                                <field name="source_name" readonly="1" force_save="1" invisible="1"/>
+                                <field name="reference_no" force_save="1" invisible="1"/>
+                                <field name="status_header" invisible="1" force_save="1" />
+                                <field name="posting_date" invisible="1" force_save="1"/>
+                                <field name="category_inventory_unit_of_measure" invisible="1" force_save="1"/>
+                            </tree>
+                            <form>
+                                <field name="inventory_name" domain="[('inventory_type','=','4')]" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="inventory_qty" force_save="1" readonly="1"/>
+                                <field name="quantity" />
+                                <field name="source_price" attrs="{'required': [('entry_type', 'in', ['5'])]}"/>
+                                <field name="unit_of_measure" force_save="1" domain="[('category_id', '=', category_inventory_unit_of_measure)]"/>
+                                <field name="total" force_save="1"/>
+                                <field name="remarks"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                                <field name="total_source_price" force_save="1" invisible="1" />
+                                <field name="category_inventory_unit_of_measure" invisible="1" force_save="1"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree (Line) -->
+    <record id="item_journal_sales_line" model="ir.ui.view">
+        <field name="name">item.journal.sales.line.view.tree</field>
+        <field name="model">ae.itemjournal.line</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="line_no" />
+                <field name="reference_no" />
+                <field name="inventory_name" />
+                <field name="inventory_location_code"/>
+                <field name="quantity" />
+                <field name="source_price"/>
+                <field name="unit_of_measure"/>
+                <field name="remarks"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Item Journal List, Item type = Stationary and Supplies, Entry Type = Sales -->
+
+    <!-- Item Journal List, Item type = Stationary and Supplies -->
+    <!-- Tree -->
+    <record id="item_journal_stasup_view_tree" model="ir.ui.view">
+        <field name="name">item.journal.stasup.view.tree</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="reference_no" />
+                <field name="entry_type" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="item_journal_stasup_view_form" model="ir.ui.view">
+        <field name="name">item.journal.stasup.view.form</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="20" />
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <header>
+                    <button string="Get Data" name="fnOpenWizard" type="object" class="oe_highlight" attrs="{'invisible': ['|',('state','=','posted'), ('entry_type', '!=', '6')] }"/>
+                    <button string="Posting" name="action_posting_invle" type="object" class="oe_highlight" attrs="{'invisible': [('state','=','posted')] }"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Stationery and Supplies Journal" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="reference_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="reference_no" placeholder="e.g. Document 0001" force_save="1"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="posting_date" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}"/>
+                        <field name="entry_type_stasup" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)], 'required': [('posting_date', '!=', False)]}"/>
+                        <field name="item_type_stasup" readonly="1"/>
+                        <field name="item_type" invisible="1"/>
+                        <field name="entry_type" invisible="1"/>
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="item_journal_line_ids" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}">
+                            <tree editable="bottom" >
+                                <field name="item_journal_header_id" invisible="1" />
+                                <!-- <field name="document_no_inv_ledger" /> -->
+                                <field name="inventory_name" domain="[('inventory_type','=','4')]" options="{'no_create': True, 'no_create_edit':True}" />
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="quantity" attrs="{'readonly': [('entry_type', 'in', ['6'])]}"/>
+                                <!-- <field name="quantity_returned" attrs="{'readonly': [('entry_type', 'in', ['1', '2'])], 'required': [('entry_type', 'in', ['6'])]}"/> -->
+                                <field name="unit_of_measure" force_save="1" readonly="1"/>
+                                <field name="remarks"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                                <field name="reference_no" force_save="1" invisible="1"/>
+                                <field name="status_header" invisible="1" force_save="1" />
+                                <field name="line_no" force_save="1" invisible="1"/>
+                                <field name="posting_date" force_save="1" invisible="1"/>
+                                <field name="category_inventory_unit_of_measure" invisible="1" force_save="1"/>
+                                <field name="entry_type" invisible="1"/>
+                            </tree>
+                            <form>
+                                <field name="document_no_inv_ledger" />
+                                <field name="inventory_name" domain="[('inventory_type','=','4')]" />
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="quantity" />
+                                <field name="unit_of_measure" force_save="1" readonly="1"/>
+                                <field name="remarks"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="category_inventory_unit_of_measure" invisible="1" force_save="1"/>
+                                <field name="entry_type" invisible="1"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree (Line) -->
+    <record id="item_journal_stasup_line" model="ir.ui.view">
+        <field name="name">item.journal.stasup.line.view.tree</field>
+        <field name="model">ae.itemjournal.line</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="line_no" />
+                <field name="reference_no" />
+                <field name="entry_type" />
+                <field name="inventory_name" />
+                <field name="quantity" />
+                <field name="quantity_returned" />
+                <field name="unit_of_measure" />
+                <field name="remarks" />
+            </tree>
+        </field>
+    </record>
+    <!-- Item Journal List, Item type = Stationary and Supplies -->
+
+    <!-- Item Journal List, Item type = Settling Kit -->
+    <!-- Tree -->
+    <!-- <record id="item_journal_setkit_view_tree" model="ir.ui.view">
+        <field name="name">item.journal.setkit.view.tree</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="21" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="reference_no" />
+                <field name="entry_type" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record> -->
+
+    <!-- Form -->
+    <record id="item_journal_setkit_view_form" model="ir.ui.view">
+        <field name="name">item.journal.setkit.view.form</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="21" />
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <header>
+                    <button string="Posting" name="action_posting_invle" type="object" class="oe_highlight" attrs="{'invisible': [('state','=','posted')] }"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Settling Kit Journal" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="reference_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="reference_no" placeholder="e.g. Document 0001" force_save="1"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="posting_date" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}"/>
+                        <!-- <field name="state" /> -->
+                        <field name="entry_type_setkit" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)], 'required': [('posting_date', '!=', False)]}"/>
+                        <field name="item_type_setkit" readonly="1"/>
+                        <field name="item_type" invisible="1" force_save="1"/>
+                        <field name="entry_type" invisible="1" force_save="1"/>
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="item_journal_line_ids" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}">
+                            <tree editable="bottom" >
+                                <field name="item_journal_header_id" invisible="1" />
+                                <field name="inventory_name" domain="[('inventory_type','=','5')]" context="{'form_view_ref': 'inventorymodule.ae_inventory_settling_kits_view_form'}" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="inventory_room_code" force_save="1" /> <!--attrs="{'required': [('entry_type', 'in', ['1', '2', '3'])]}"-->
+                                <field name="inventory_sub_room_code" force_save="1"/>
+                                <field name="quantity" />
+                                <field name="unit_of_measure" force_save="1"/>
+                                 <field name="remarks" attrs="{'required': [('required_field','=', True)]}"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                                <field name="required_field" invisible="1"/>
+                                <field name="status_header" invisible="1" force_save="1" />
+                            </tree>
+                            <form>
+                                <field name="inventory_name" domain="[('inventory_type','=','5')]" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="inventory_room_code" force_save="1" attrs="{'required': [('entry_type', 'in', ['1', '2', '3'])]}"/>
+                                <field name="inventory_sub_room_code" force_save="1" attrs="{'required': [('entry_type', 'in', ['1', '2', '3'])]}"/>
+                                <field name="quantity" />
+                                <field name="unit_of_measure" force_save="1"/>
+                                <field name="remarks" attrs="{'required': [('required_field','=', True)]}"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                                <field name="required_field" invisible="1"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree (Line) -->
+    <record id="item_journal_setkit_settlingkit_view_tree" model="ir.ui.view">
+        <field name="name">item.journal.setkit.line.view.tree</field>
+        <field name="model">ae.itemjournal.line</field>
+        <field name="priority" eval="21" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="line_no" />
+                <field name="reference_no" />
+                <field name="inventory_name" />
+                <field name="inventory_location_code" />
+                <field name="inventory_room_code" />
+                <field name="inventory_sub_room_code" />
+                <field name="quantity" />
+                <field name="unit_of_measure" />
+                <field name="remarks" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Tree -->
+    <record id="item_journal_setkits_view_tree" model="ir.ui.view">
+        <field name="name">item.journal.setkits.view.tree</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="21" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="reference_no" />
+                <field name="entry_type" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Item Journal List, Item type = Settling Kit -->
+
+    <!--NEW-->
+    <!-- Item Journal List, Item type = Stationary and Supplies -->
+    <!-- Tree -->
+    <record id="item_journal_stasup_salesreturn_view_tree" model="ir.ui.view">
+        <field name="name">item.journal.stasup.salesreturn.view.tree</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="28" />
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date" />
+                <field name="reference_no" />
+                <field name="entry_type" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form -->
+    <record id="item_journal_stasup_salesreturn_view_form" model="ir.ui.view">
+        <field name="name">item.journal.stasup.salesreturn.view.form</field>
+        <field name="model">ae.itemjournal.header</field>
+        <field name="priority" eval="28" />
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <header>
+                    <button string="Get Data" name="fnOpenWizard" type="object" class="oe_highlight" attrs="{'invisible': ['|',('state','=','posted'), ('entry_type', '!=', '6')] }"/>
+                    <button string="Posting" name="action_posting_invle" type="object" class="oe_highlight" attrs="{'invisible': [('state','=','posted')] }"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Sales Return Journal" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <div class="oe_title">
+                        <label for="reference_no" string="Document No."/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="o_text_overflow" name="reference_no" placeholder="e.g. Document 0001" force_save="1"/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="posting_date" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}"/>
+                        <field name="entry_type_salesreturn" attrs="{'required': [('posting_date', '!=', False)]}"/>
+                        <field name="item_type_salesreturn" readonly="1"/>
+                        <field name="item_type" invisible="1"/>
+                        <field name="entry_type" invisible="1"/>
+                    </group>
+                    <notebook>
+                    <page string="Lines">
+                        <field name="item_journal_line_ids" attrs="{'readonly': ['|' ,('state', 'in', ['posted']), ('active', 'in', False)]}">
+                            <tree editable="bottom" create="false">
+                                <field name="item_journal_header_id" invisible="1" />
+                                <field name="document_no_inv_ledger" string="Source No"/>
+                                <field name="inventory_name" domain="[('inventory_type','=','4')]" options="{'no_create': True, 'no_create_edit':True}" />
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="quantity" attrs="{'readonly': [('entry_type', 'in', ['6'])]}"/>
+                                <field name="quantity_returned" attrs="{'readonly': [('entry_type', 'in', ['1', '2'])], 'required': [('entry_type', 'in', ['6'])]}"/>
+                                <field name="unit_of_measure" force_save="1" readonly="1"/>
+                                <field name="remarks"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="entry_type" invisible="1"/>
+                                <field name="reference_no" force_save="1" invisible="1"/>
+                                <field name="status_header" invisible="1" force_save="1" />
+                                <field name="posting_date" force_save="1" invisible="1" />
+                                <field name="reference_no" force_save="1" invisible="1"/>
+                                <field name="source_name" force_save="1" invisible="1"/>
+                                <field name="category_inventory_unit_of_measure" invisible="1" force_save="1"/>
+                            </tree>
+                            <form>
+                                <field name="document_no_inv_ledger" />
+                                <field name="inventory_name" domain="[('inventory_type','=','4')]" />
+                                <field name="inventory_location_code" force_save="1"/>
+                                <field name="quantity" />
+                                <field name="unit_of_measure" force_save="1" readonly="1"/>
+                                <field name="remarks"/>
+                                <field name="available_rooms" invisible="1"/>
+                                <field name="available_sub_rooms" invisible="1"/>
+                                <field name="source_name" force_save="1" invisible="1"/>
+                                <field name="category_inventory_unit_of_measure" invisible="1" force_save="1"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree (Line) -->
+    <record id="item_journal_stasup_salesreturn_line" model="ir.ui.view">
+        <field name="name">item.journal.stasup.salesreturn.line.view.tree</field>
+        <field name="model">ae.itemjournal.line</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="posting_date"/>
+                <field name="entry_type" />
+                <field name="reference_no" />
+                <field name="inventory_name" />
+                <field name="quantity" />
+                <field name="quantity_returned" />
+                <field name="unit_of_measure" />
+                <field name="remarks" />
+            </tree>
+        </field>
+    </record>
+    <!-- Item Journal List, Item type = Stationary and Supplies -->
+    <!--NEW-->
+
+
+    <!--    Sequence   -->
+
+    <!-- Default Sequence -->
+    <!-- <record id="sequence_ae_itemjournal_header_default" model="ir.sequence">
+        <field name="name">AE Item Journal Header Default</field>
+        <field name="code">ae.itemjournal.header.default</field>
+        <field name="prefix">ITEMJOURNAL-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record> -->
+
+    <!--    Sequence   -->
+
+    <!--    Sequence   -->
+    <!-- Sequence for Attractive Items - Stock In -->
+    <record id="sequence_ae_itemjournal_header_attractive_stock_in" model="ir.sequence">
+        <field name="name">AE Item Journal Header Attractive Stock In</field>
+        <field name="code">ae.itemjournal.header.attractive.stock_in</field>
+        <field name="prefix">IJAI-%(day)s%(month)s%(y)s-</field> <!--IJAI-SI-%(year)s%(month)s%(day)s-%(h24)s%(min)s%(sec)s-->
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+    <!-- Sequence for Attractive Items - Stock Out -->
+    <record id="sequence_ae_itemjournal_header_attractive_stock_out" model="ir.sequence">
+        <field name="name">AE Item Journal Header Attractive Stock Out</field>
+        <field name="code">ae.itemjournal.header.attractive.stock_out</field>
+        <field name="prefix">IJAI-SO-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+    <!-- Sequence for Attractive Items - Sales Return -->
+    <record id="sequence_ae_itemjournal_header_attractive_consumpsion" model="ir.sequence">
+        <field name="name">AE Item Journal Header Attractive Consumpsion</field>
+        <field name="code">ae.itemjournal.header.attractive.consumption</field>
+        <field name="prefix">CJ-%(day)s%(month)s%(y)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+    <!-- Sequence for Stationery & Supplies - Stock In -->
+    <record id="sequence_ae_itemjournal_header_stassup_stock_in" model="ir.sequence">
+        <field name="name">AE Item Journal Header Stassup Stock In</field>
+        <field name="code">ae.itemjournal.header.stassup.stock_in</field>
+        <field name="prefix">IJSS-%(day)s%(month)s%(y)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+    <!-- Sequence for Stationery & Supplies - Stock Out -->
+    <record id="sequence_ae_itemjournal_header_stassup_stock_out" model="ir.sequence">
+        <field name="name">AE Item Journal Header Stassup Stock Out</field>
+        <field name="code">ae.itemjournal.header.stassup.stock_out</field>
+        <field name="prefix">IJSS-OUT-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+    <!-- Sequence for Stationery & Supplies - Sales Return -->
+    <record id="sequence_ae_itemjournal_header_stassup_sales_return" model="ir.sequence">
+        <field name="name">AE Item Journal Header Stassup Sales Return</field>
+        <field name="code">ae.itemjournal.header.stassup.sales_return</field>
+        <field name="prefix">SRJ-%(day)s%(month)s%(y)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+    <!-- Sequence for Settling Kit - Stock In -->
+    <record id="sequence_ae_itemjournal_header_setkit_stock_in" model="ir.sequence">
+        <field name="name">AE Item Journal Header Setkit Stock In</field>
+        <field name="code">ae.itemjournal.header.setkit.stock_in</field>
+        <field name="prefix">IJSK-%(day)s%(month)s%(y)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+    <!-- Sequence for Settling Kit - Stock Out -->
+    <record id="sequence_ae_itemjournal_header_setkit_stock_out" model="ir.sequence">
+        <field name="name">AE Item Journal Header Setkit Stock Out</field>
+        <field name="code">ae.itemjournal.header.setkit.stock_out</field>
+        <field name="prefix">IJSK-OUT-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+    <!-- Sequence for Stationary and Supplies - Purchase -->
+    <record id="sequence_ae_itemjournal_header_stassup_purchase" model="ir.sequence">
+        <field name="name">AE Item Journal Header Stassup Purchase</field>
+        <field name="code">ae.itemjournal.header.purchase</field>
+        <field name="prefix">PJ-%(day)s%(month)s%(y)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+    <!-- Sequence for Stationary and Supplies - Sales -->
+    <record id="sequence_ae_itemjournal_header_stassup_sales" model="ir.sequence">
+        <field name="name">AE Item Journal Header Stassup Sales</field>
+        <field name="code">ae.itemjournal.header.sales</field>
+        <field name="prefix">SJ-%(day)s%(month)s%(y)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+    <!-- Default Sequence -->
+    <!-- <record id="sequence_ae_itemjournal_header_default" model="ir.sequence">
+        <field name="name">AE Item Journal Header Default</field>
+        <field name="code">ae.itemjournal.header.default</field>
+        <field name="prefix">IJDEFAULT</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+    </record> -->
+
+    <!--    Sequence   -->
+
+    <!-- Record Rule -->
+    <!-- Record Rule -->
+   
+
+</odoo>

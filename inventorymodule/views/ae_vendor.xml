@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ae vendor tree -->
+    <record id="ae_vendor_view_tree" model="ir.ui.view">
+        <field name="name">ae.vendor.view.tree</field>
+        <field name="model">ae.master.vendor</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="vendor_contactno" />
+                <field name="vendor_code" />
+                <field name="vendor_name" />
+                <field name="vendor_contactperson" />
+            </tree>
+        </field>
+    </record> 
+
+    <record id="ae_vendor_view_form" model="ir.ui.view">
+        <field name="name">ae.vendor.view.form</field>
+        <field name="model">ae.master.vendor</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+
+                    <widget name="web_ribbon" title="Vendor" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <group col="2">
+                        <group>
+                            <field name="vendor_code" />
+                            <field name="vendor_name" />
+                            <field name="vendor_email" />
+                            <field name="vendor_address" />
+                        </group>
+                        <group>
+                            <field name="vendor_contactperson" />
+                            <field name="vendor_contactno" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record> 
+
+    <record id="ae_vendor_view_search" model="ir.ui.view">
+        <field name="name">ae.vendor.view.search</field>
+        <field name="model">ae.master.vendor</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="vendor_name" />
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+</odoo>

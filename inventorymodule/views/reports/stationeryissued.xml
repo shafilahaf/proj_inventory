@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <template id="report_stationaryissued">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page" style="font-family: Segoe UI, Arial, sans-serif;">
+                    <style>
+                    /* Custom styles for the table */
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            border: 1px solid #bababa;
+                            font-family: "Segoe UI", Arial, sans-serif;
+                            font-size: 8px;
+                        }
+                        th, td {
+                            border: 1px solid #bababa;
+                            padding: 8px;
+                            text-align: center;
+                        }
+                        th {
+                            background-color: #00006a;
+                            font-weight: bold;
+                            border: 1px solid #bababa;
+                        }
+                        tr:nth-child(even) {
+                            background-color: #FFF;
+                        }
+                        img {
+                            width: 100px;
+                            height: 100px;
+                            display: block;
+                            margin: auto;
+                        }
+                        tr {
+                            height: auto;
+                            line-height: auto;
+                        }
+                    </style>
+                    <div class="oe_structure"/>
+                    <div class="headersection">
+                        <div class="text-left" style="padding-top: 25px;">
+                            <b><h5>Stationery Issued</h5></b>
+                            <div style="display: flex; justify-content: space-between;">
+                                <b><h6>For the Month of <span t-esc="form_data['starting_date_char']"/> - <span t-esc="form_data['ending_date_char']"/> </h6></b>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <h4 style="font-weight:bold;"><t t-if="form_data['isgetallcustomer'] == True">All Customer</t><t t-else="form_data['isgetallcustomer'] == False"><t t-esc="form_data['customer_name'][1]"/></t></h4>
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Date</th>
+                                <t t-if="form_data['isgetallcustomer'] == True">
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Customer</th>
+                                </t>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Description</th>
+                                <th rowspan="1" colspan="2" style="vertical-align: middle; border-top: 1px solid #bababa; border-bottom: 1px solid #bababa;color:#fff;">Issued</th>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Price (IDR)</th>
+                                <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Total Price</th>
+                            </tr>
+                            <tr>
+                                <th style="border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">QTY</th>
+                                <th style="border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">UNIT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="inv_led_entry" t-as="ledger">
+                                <tr>
+                                    <td><t t-esc="ledger['postingdate']"/></td>
+                                    <t t-if="form_data['isgetallcustomer'] == True">
+                                        <td><t t-esc="ledger['customername']"/></td>
+                                    </t>
+                                    <td style="text-align:left;"><t t-esc="ledger['description']"/></td>
+                                    <td><t t-esc="ledger['quantity']"/></td>
+                                    <td><t t-esc="ledger['unit']"/></td>
+                                    <td style="text-align: right;"><t t-esc="ledger['price']"/></td>
+                                    <td style="text-align: right;"><t t-esc="ledger['totalprice']"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <t t-if="form_data['isgetallcustomer'] == True">
+                                <tr>
+                                    <th colspan="6" style="text-align: right; background-color: #D9D9D9;color:#000;">TOTAL AMOUNT</th>
+                                    <th style="background-color: #D9D9D9;text-align: right;color:#000;"><t t-esc="ledger['sumtotalprice']"/></th>
+                                </tr>
+                            </t>
+                            <t t-else="form_data['isgetallcustomer'] == False">
+                                <tr>
+                                    <th colspan="5" style="text-align: right; background-color: #D9D9D9;color:#000;">TOTAL AMOUNT</th>
+                                    <th style="background-color: #D9D9D9;text-align: right;color:#000;"><t t-esc="ledger['sumtotalprice']"/></th>
+                                </tr>
+                            </t>
+                        </tfoot>
+                    </table>
+                    <div class="text-left" style="padding-top: 10px;">
+                        <p style="font-weight:bold;">Note : <br></br> <span style="text-decoration: underline;">Please Credit to G/L 12735; Cost Centre QJAKT</span> </p>
+                    </div>
+                </div>
+                <div class="footer">
+                    <div class="text-center" style="font-family: Segoe UI, Arial, sans-serif;">
+                        Page <span class="page"/> of <span class="topage"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template> -->
+
+    <template id="report_stationaryissued">
+        <t t-foreach="stationery_inventory_list" t-as="customer_inventory">
+            <div class="page" style="font-family: Segoe UI, Arial, sans-serif;">
+                <t t-call="web.html_container">
+                    <t t-call="web.external_layout">
+                        <!-- <div class="headersection">
+                            <div class="text-left" style="padding-top: 25px;">
+                                <b><h5>Stationery Issued</h5></b>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <b><h6>For the Month of <span t-esc="form_data['starting_date_char']"/> - <span t-esc="form_data['ending_date_char']"/> </h6></b>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 style="font-weight:bold; text-align: right;"><t t-esc="customer_inventory['customer_name']"/></h4>
+                            </div>
+                        </div> -->
+
+                        <style>
+                            /* Custom styles for the table */
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                border: 1px solid #bababa;
+                                font-family: "Segoe UI", Arial, sans-serif;
+                                font-size: 8px;
+                            }
+                            th, td {
+                                border: 1px solid #bababa;
+                                padding: 8px;
+                                text-align: center;
+                            }
+                            th {
+                                background-color: #00006a;
+                                font-weight: bold;
+                                border: 1px solid #bababa;
+                                color: #fff;
+                            }
+                            tr:nth-child(even) {
+                                background-color: #FFF;
+                            }
+                            img {
+                                width: 100px;
+                                height: 100px;
+                                display: block;
+                                margin: auto;
+                            }
+                            tr {
+                                height: auto;
+                                line-height: auto;
+                            }
+                            <!-- Tfoot in the end of table (fixed) -->
+                            tfoot {
+                                display: table-row-group;
+                            }
+                        </style>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <!-- <th colspan="6" style="background-color:#fff;color:#000;">
+                                        <div class="headersection" style="background-color:#fff;color:#000;">
+                                            <div class="text-left" style="padding-top: 25px;">
+                                                <b><h5>Stationery Issued</h5></b>
+                                                <div style="display: flex; justify-content: space-between;">
+                                                    <b><h6>For the Month of <span t-esc="form_data['starting_date_char']"/> - <span t-esc="form_data['ending_date_char']"/> </h6></b>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h4 style="font-weight:bold; text-align: right;"><t t-esc="customer_inventory['customer_name']"/></h4>
+                                            </div>
+                                        </div>
+                                    </th> -->
+                                    <th colspan="6" style="background-color:#fff;color:#000;border-top: 1px solid #fff;border-left: 1px solid #fff;border-right: 1px solid #fff;">
+                                        <div class="headersection" style="background-color:#fff;color:#000;">
+                                            <div class="text-left" style="padding-top: 25px;">
+                                                <b><h5>Stationery Issued</h5></b>
+                                                <div style="display: flex; justify-content: space-between;">
+                                                    <b><h6>For the Month of <span t-esc="form_data['starting_date_char']"/> - <span t-esc="form_data['ending_date_char']"/> </h6></b>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <h4 style="font-weight:bold; text-align: right;"><t t-esc="customer_inventory['customer_name']"/></h4>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Date</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Description</th>
+                                    <th rowspan="1" colspan="2" style="vertical-align: middle; border-top: 1px solid #bababa; border-bottom: 1px solid #bababa;color:#fff;">Issued</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Price (IDR)</th>
+                                    <th rowspan="2" colspan="1" style="vertical-align: middle; border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">Total Price</th>
+                                </tr>
+                                <tr>
+                                    <th style="border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">QTY</th>
+                                    <th style="border-bottom: 1px solid #bababa; border-top: 1px solid #bababa;color:#fff;">UNIT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="customer_inventory['inventory_list']" t-as="inventory">
+                                    <tr>
+                                        <td><t t-esc="inventory['postingdate']"/></td>
+                                        <td><t t-esc="inventory['description']"/></td>
+                                        <td><t t-esc="inventory['quantity']"/></td>
+                                        <td><t t-esc="inventory['unit']"/></td>
+                                        <td style="text-align: right;"><t t-esc="inventory['price']"/></td>
+                                        <td style="text-align: right;"><t t-esc="inventory['totalprice']"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="5" style="text-align: right; background-color: #D9D9D9;color:#000;">TOTAL AMOUNT</th>
+                                    <th style="background-color: #D9D9D9;text-align: right;color:#000;">
+                                        <t t-esc="'{:,.2f}'.format(customer_inventory['sumtotalprice'])"/>
+                                    </th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="text-left" style="padding-top: 10px;">
+                            <p style="font-weight:bold;">Note : <br></br> <span style="text-decoration: underline;">Please Credit to G/L 12735; Cost Centre QJAKT</span> </p>
+                        </div>
+                    </t>
+                </t>
+            </div>
+        </t>
+    </template>
+
+</odoo>

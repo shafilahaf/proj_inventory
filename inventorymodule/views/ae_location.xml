@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- tree -->
+    <record id="ae_location_view_tree" model="ir.ui.view">
+        <field name="name">ae.location.view.tree</field>
+        <field name="model">ae.location</field>
+        <field name="arch" type="xml">
+            <tree string="">
+                <field name="location_code" />
+                <field name="location_name" />
+                <field name="location_type" />
+                <field name="asset_location_code" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="ae_location_view_search" model="ir.ui.view">
+        <field name="name">ae.location.view.search</field>
+        <field name="model">ae.location</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="location_code" />
+                <field name="location_name" />
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- form -->
+    <record id="ae_location_view_form" model="ir.ui.view">
+        <field name="name">ae.location.view.form</field>
+        <field name="model">ae.location</field>
+        <field name="arch" type="xml">
+            <form string="" duplicate="false">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Location" bg_color="bg-info" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <group>
+                        <field name="location_code" />
+                        <field name="location_name" />
+                        <field name="location_type" />
+                        <field name="asset_location_code" />
+                        <field name="is_main_storage"/>
+                        <!-- <field name="disposal_storage" /> -->
+                        <!-- <field name="has_loan_location" widget="boolean_toggle"/> -->
+                    </group>
+                    <notebook>
+                    <page string="Details">
+                        <field name="location_details_id">
+                            <tree editable="bottom" >
+                                <field name="location_id" invisible="1" />
+                                <field name="room_code" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="sub_room_code" widget="many2many_tags" options="{'no_create': True, 'no_create_edit':True}"/>
+                            </tree>
+                            <form>
+                                <field name="room_code" options="{'no_create': True, 'no_create_edit':True}"/>
+                                <field name="sub_room_code" widget="many2many_tags" options="{'no_create': True, 'no_create_edit':True}"/>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

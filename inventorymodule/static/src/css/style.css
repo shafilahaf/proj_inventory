@@ -1,0 +1,7 @@
+.custom_width_setkit th[data-name="inventory"] {
+    width: 300px !important;
+}
+
+.custom_width_scanupdate th[data-name="inventory_label"] {
+    width: 250px !important;
+}

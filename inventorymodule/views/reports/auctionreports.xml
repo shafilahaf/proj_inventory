@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_auction">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: Segoe UI, Arial, sans-serif;">
+                        <style>
+                            table {
+                                font-family: "Segoe UI", Arial, sans-serif;
+                            }
+
+                            .table-bordered {
+                                border-collapse: collapse;
+                                width: 100%;
+                            }
+
+                            .table-bordered th,
+                            .table-bordered td {
+                                border: 1px solid #ddd; /* You can customize the border color here */
+                                padding: 8px;
+                                text-align: left;
+                            }
+
+                            .table-bordered th {
+                                background-color: #f2f2f2; /* You can customize the header background color here */
+                            }
+
+                            h4 {
+                                font-weight: bold;
+                            }
+
+                            h5 {
+                                font-weight: bold;
+                            }
+
+                        </style>
+
+                        <!-- Header (Title(h1) and Subtitle(h3)) -->
+                        <div class="text-center">
+                            <h4>Hasil Lelang Aset Kedutaan Australia</h4>
+                            <h5>Tanggal <span><t t-esc="o.auction_date_char"/></span></h5>
+                        </div>
+
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="background-color: #00006a;color: #fff;text-align:center;">No. Lot</th>
+                                    <th style="background-color: #00006a;color: #fff;text-align:center;">Harga Limit</th>
+                                    <th style="background-color: #00006a;color: #fff;text-align:center;">Nama Barang</th>
+                                    <th style="background-color: #00006a;color: #fff;text-align:center;">Jumlah</th>
+                                    <th style="background-color: #00006a;color: #fff;text-align:center;">Harga Terbentuk</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="i" t-value="1"/>
+                                <t t-set="prev_lot_no" t-value="None"/>
+                                <t t-set="prev_harga_limit" t-value="None"/>
+                                <t t-set="prev_harga_terbentuk" t-value="None"/>
+                                <t t-foreach="o.auction_line_ids" t-as="line">
+                                    <tr>
+                                        <t t-if="line.auction_header_id.lot_no != prev_lot_no">
+                                            <td style="color: #000;text-align:center;"><t t-esc="line.auction_header_id.lot_no"/></td>
+                                            <t t-set="prev_lot_no" t-value="line.auction_header_id.lot_no"/>
+                                        </t>
+                                        <t t-else="">
+                                            <td></td>
+                                        </t>
+                                        
+                                        <t t-if="line.auction_header_id.harga_limit != prev_harga_limit">
+                                            <td style="color: #000;text-align:right;"><t t-esc="'{0:,}'.format(int(line.auction_header_id.harga_limit))"/></td>
+                                            <t t-set="prev_harga_limit" t-value="line.auction_header_id.harga_limit"/>
+                                        </t>
+                                        <t t-else="">
+                                            <td></td>
+                                        </t>
+                                        
+                                        <td style="color: #000;"><t t-esc="line.inventory.inventory_name"/></td>
+                                        <td style="color: #000;text-align:center;"><t t-esc="line.quantity"/></td>
+                                        
+                                        <t t-if="line.auction_header_id.harga_terbentuk != prev_harga_terbentuk">
+                                            <td style="color: #000;text-align:right;"><t t-esc="'{0:,}'.format(int(line.auction_header_id.harga_terbentuk))"/></td>
+                                            <t t-set="prev_harga_terbentuk" t-value="line.auction_header_id.harga_terbentuk"/>
+                                        </t>
+                                        <t t-else="">
+                                            <td></td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th style="background-color:#fff;color:#ffff;border: 1px solid #fff;"></th>
+                                    <th style="text-align:right;background-color:#800188;color:#fff;"><t t-esc="'{0:,}'.format(int(line.auction_header_id.harga_limit))"/></th>
+                                    <th style="background-color:#fff;color:#ffff;border: 1px solid #fff;"></th>
+                                    <th style="background-color:#fff;color:#ffff;border: 1px solid #fff;"></th>
+                                    <th style="text-align:right;background-color:#800188;color:#fff;"><t t-esc="'{0:,}'.format(int(line.auction_header_id.harga_terbentuk))"/></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+
+                        <!-- Resume 1 - Auction Information -->
+                        <table class="table table-striped">
+                            <tbody>
+                                <t t-foreach="o" t-as="headers">
+                                    <tr>
+                                        <td style="font-weight:bold;color:#000;border: 0px solid #fff;">Total Sales before Balindo's fee</td>
+                                        <td style="font-weight:bold;color:#000;background-color:#D9D9D9;color:#000;border: 0px solid #fff;">Dept.</td>
+                                        <td style="font-weight:bold;color:#000;border: 0px solid #fff;"><t t-esc="headers.agency_name.description"/></td>
+                                        <td style="font-weight:bold;color:#000;text-align:right;border: 0px solid #fff;"><t t-esc="'{0:,}'.format(int(headers.harga_terbentuk))"/></td>
+                                        <td style="font-weight:bold;color:#000;border: 0px solid #fff;"><t t-esc="headers.agency_name.description"/></td>
+                                        <td style="font-weight:bold;color:#000;text-align:right;border: 0px solid #fff;"><t t-esc="'{0:,}'.format(int(headers.fee_hargaterbentuk))"/></td>
+                                        <td style="font-weight:bold;color:#000;text-align:right;border: 0px solid #fff;"><t t-esc="'{0:,}'.format(int(headers.ppn_feehargaterbentuk))"/></td>
+                                        <td style="background-color:#800188;color:#fff;text-align:right;font-weight:bold;"><t t-esc="'{0:,}'.format(int(headers.total))"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="7"></th>
+                                    <th style="background-color:#800188;color:#fff;text-align:center">Total Sales after Balindo's fee</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <!-- Resume 1 -->
+
+
+                        <!-- Resume 2 - Agency Information -->
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="background-color: #00006a;color:#fff;text-align:center;">No.</th>
+                                    <th style="background-color: #00006a;color:#fff;text-align:center;">Dept.</th>
+                                    <th style="background-color: #00006a;color:#fff;text-align:center;">G/L Code</th>
+                                    <th style="background-color: #00006a;color:#fff;text-align:center;">Cost Centre</th>
+                                    <th style="background-color: #00006a;color:#fff;text-align:center;">Internal Order</th>
+                                    <th style="background-color: #00006a;color:#fff;text-align:center;">Assignment</th>
+                                    <th style="background-color: #00006a;color:#fff;text-align:center;">FMIS Code</th>
+                                    <th style="background-color: #00006a;color:#fff;text-align:center;">Description</th>
+                                    <th style="background-color: #00006a;color:#fff;text-align:center;">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="i" t-value="1"/>
+                                <t t-foreach="o" t-as="header">
+                                    <tr>
+                                        <td style="color: #000;text-align:center;"><t t-esc="i"/></td>
+                                        <td style="background-color:#D9D9D9;color:#000;"><t t-esc="header.agency_name.agency_name"/></td>
+                                        <td style="color: #000;text-align:center;"><t t-esc="header.agency_name.gl_code"/></td>
+                                        <td style="color: #000;text-align:center;"><t t-esc="header.cost_centre"/></td>
+                                        <td style="color: #000;text-align:center;"><t t-esc="header.internal_order"/></td>
+                                        <td style="color: #000;text-align:center;"><t t-esc="header.agency_name.assignment"/></td>
+                                        <td style="color: #000;"><t t-esc="header.agency_name.fmis_code"/></td>
+                                        <td style="color: #000;"><t t-esc="header.agency_name.description"/></td>
+                                        <td style="color: #000;text-align:right;"><t t-esc="'{0:,}'.format(int(header.total))"/></td>
+                                        
+                                    </tr>
+                                    <t t-set="i" t-value="i+1"/>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="8" style="text-align:center;background-color:#800188;color:#fff;">TOTAL</th>
+                                    <th style="text-align:right;background-color:#800188;color:#fff;"><t t-esc="'{0:,}'.format(int(header.total))"/></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <!-- Resume 2 -->
+
+
+                    </div>
+                    <div class="footer">
+                        <!-- Center the page of -->
+                        <div class="text-center" style="font-family: Segoe UI, Arial, sans-serif;">
+                            Page <span class="page"/> of <span class="topage"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
